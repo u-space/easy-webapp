@@ -31,6 +31,15 @@ export const OperationState = Type.Enum(OperationStateEnum);
 
 export type OperationState = Static<typeof OperationState>;
 
+const ResponseOperationSubscriber = Type.Object({
+	name: Type.String(),
+	timeZone: Type.Optional(Type.String()),
+	email: Type.Optional(Type.String()),
+	whatsappMobile: Type.Optional(Type.String())
+});
+
+export type ResponseOperationSubscriber = Static<typeof ResponseOperationSubscriber>;
+
 const RequestOperation = Type.Object(
 	{
 		gufi: Type.Optional(Type.String()), // Undefined when creating a new operation, defined when updating an existing operation
@@ -44,7 +53,8 @@ const RequestOperation = Type.Object(
 		state: OperationState,
 		submit_time: Type.Optional(Type.String()), // Undefined when creating a new operation, defined when updating an existing operation
 		update_time: Type.Optional(Type.String()), // Undefined when creating a new operation, defined when updating an existing operation
-		uas_registrations: Type.Array(RequestOperationVehicle)
+		uas_registrations: Type.Array(RequestOperationVehicle),
+		subscribers: Type.Optional(Type.Array(ResponseOperationSubscriber))
 	},
 	{ additionalProperties: false }
 );
@@ -72,7 +82,8 @@ const ResponseOperation = Type.Composite([
 		creator: ResponseNestedUser,
 		owner: ResponseNestedUser,
 		operation_volumes: Type.Array(ResponseOperationVolume),
-		flight_comments: Type.Optional(Type.String())
+		flight_comments: Type.Optional(Type.String()),
+		subscribers: Type.Optional(Type.Array(ResponseOperationSubscriber))
 	})
 ]);
 
@@ -181,15 +192,24 @@ export class BaseOperation {
 	}
 }
 
+export type OperationSubscriber = {
+	name: string;
+	timeZone?: string;
+	email?: string;
+	whatsappMobile?: string;
+};
+
 export class Operation
 	extends BaseOperation
-	implements UtmEntity<RequestOperation, { omitOwner: boolean }> {
+	implements UtmEntity<RequestOperation, { omitOwner: boolean }>
+{
 	creator: NestedUser | null;
 	owner: NestedUser | null;
 	submit_time: Date | null;
 	update_time: Date | null;
 	flight_comments?: string;
 	uas_registrations: UtmBaseVehicle[];
+	subscribers?: OperationSubscriber[];
 
 	constructor(backendOperation?: ResponseOperation) {
 		super(backendOperation);
@@ -211,6 +231,14 @@ export class Operation
 			this.uas_registrations = backendOperation.uas_registrations.map(
 				(vehicle) => new UtmBaseVehicle(vehicle)
 			);
+			this.subscribers = backendOperation.subscribers?.map((s) => {
+				return {
+					name: s.name,
+					timeZone: s.timeZone,
+					email: s.email,
+					whatsappMobile: s.whatsappMobile
+				};
+			});
 		} else {
 			this.creator = null;
 			this.owner = null;
@@ -258,7 +286,8 @@ export class Operation
 			state: this.state,
 			//creator: this.creator.username,
 			operation_volumes: this.operation_volumes.map((volume) => volume.asBackendFormat()),
-			uas_registrations: []
+			uas_registrations: [],
+			subscribers: this.subscribers
 		};
 
 		if (this.gufi) requestOperation.gufi = this.gufi;
