@@ -22,7 +22,7 @@ const getConverterFromPosition: VehiclePositionHeadLabelTokyoConverter['getConve
 				d.location.coordinates[1],
 				d.altitude_gps * ELEVATION_MULTIPLIER
 			],
-			getText: (d) => `${d.altitude_gps}m AGL`,
+			getText: (d) => `${d.altitude_gps}m AMSL`,
 			getSize: options.size,
 			getTextAnchor: 'start',
 			getAlignmentBaseline: 'top',
