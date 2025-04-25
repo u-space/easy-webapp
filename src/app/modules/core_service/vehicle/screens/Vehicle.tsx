@@ -12,8 +12,12 @@ import PageLayout from '../../../../commons/layouts/PageLayout';
 import { useLs } from '../../../../commons/utils';
 import { useQueryVehicle, useUpdateVehicle } from '../hooks';
 import ViewAndEditVehicle from '../pages/ViewAndEditVehicle';
-import FullParentOverlayBlock, { FullBlockType } from 'src/app/commons/components/FullParentOverlayBlock';
+import FullParentOverlayBlock, {
+	FullBlockType
+} from 'src/app/commons/components/FullParentOverlayBlock';
 import { translateErrors } from '@utm-entities/_util';
+import PFullModal, { PFullModalProps } from '@pcomponents/PFullModal';
+import { PModalType } from '@pcomponents/PModal';
 
 const CLoading = reactify(CLoadingSvelte);
 const CModal = reactify(CModalSvelte);
@@ -26,6 +30,8 @@ const LoadedVehicle = (props: { vehicle: VehicleEntity }) => {
 	const updateVehicle = useUpdateVehicle();
 	const [isEditing, setEditingFlag] = useState<boolean>(false);
 
+	const [modalProps, setModalProps] = useState<PFullModalProps | undefined>(undefined);
+
 	useEffect(() => {
 		if (updateVehicle.isSuccess) {
 			setEditingFlag(false);
@@ -34,6 +40,7 @@ const LoadedVehicle = (props: { vehicle: VehicleEntity }) => {
 
 	return (
 		<DashboardLayout>
+			{modalProps && <PFullModal {...modalProps} />}
 			<PageLayout
 				onArrowBack={() => history.push('/vehicles')}
 				extraLeftHeaderButtons={
@@ -42,7 +49,25 @@ const LoadedVehicle = (props: { vehicle: VehicleEntity }) => {
 							<PButton
 								icon={'edit'}
 								onClick={() => {
-									setEditingFlag(true);
+									setModalProps({
+										isVisible: true,
+										type: PModalType.INFORMATION,
+										title: t('Warning'),
+										content: t(
+											"If you modify your aircraft's data, it will be disabled until a DINACIA operator verifies the information. The process may take up to 72 business hours. Do you wish to continue?"
+										),
+										primary: {
+											onClick: () => {
+												setEditingFlag(true);
+												setModalProps(undefined);
+											},
+											text: t('Continue')
+										},
+										secondary: {
+											onClick: () => setModalProps(undefined),
+											text: t('Cancel')
+										}
+									});
 								}}
 							/>
 						)}
@@ -124,11 +149,9 @@ const LoadedVehicle = (props: { vehicle: VehicleEntity }) => {
 					<>
 						<h1>{t('An error ocurred while saving')}</h1>
 						<p>
-							{translateErrors(updateVehicle.error, 'vehicle').map(
-								(error) => (
-									<li key={error}>{t(error)}</li>
-								)
-							)}
+							{translateErrors(updateVehicle.error, 'vehicle').map((error) => (
+								<li key={error}>{t(error)}</li>
+							))}
 						</p>
 					</>
 				</FullParentOverlayBlock>
