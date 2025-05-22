@@ -79,7 +79,7 @@ export class VehicleEntity implements EntityHasDisplayName {
 			operators: Joi.array().items(Joi.any()),
 			extra_fields: Joi.object(),
 			_vehicleSchema: Joi.object(),
-			// remoteSensorValid: Joi.boolean()
+			owner: Joi.any().required().invalid(null),			// remoteSensorValid: Joi.boolean()
 		}).custom((obj) => {
 			for (const [key, value] of Object.entries(schema)) {
 				const { type, required } = value;

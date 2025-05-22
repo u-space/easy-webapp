@@ -298,7 +298,7 @@ const ViewAndEditVehicle: FC<ViewAndEditVehicleProps> = ({
 								preselected={ls.entity.owner ? [ls.entity.owner] : []}
 								fill
 								isRequired
-								disabled={!isEditing || !isAdmin || !isCreating}
+								disabled={!isEditing || !isAdmin }
 								isDarkVariant
 							/>
 						)}
