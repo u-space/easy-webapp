@@ -63,7 +63,7 @@
 		"createdAt": "Creado",
 		"updatedAt": "Actualizado",
 		"userDocument": "Cédula",
-		"pilotLicense": "Licencia piloto",
+		"pilotLicense": "Permiso de operador",
 		"aerialWorkPermitResolution": "Resolución de permiso de trabajo aéreo",
 		"canOperate": "Puede crear operaciones"
 	},
