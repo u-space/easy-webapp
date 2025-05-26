@@ -31,10 +31,10 @@ export const createFilterableAndPaginableSlice = <T>(
 	sortingOrder: 'DESC',
 	pageTake: 10,
 	pageSkip: 0,
-	setFilterByText: (text) => set({ filterMatchingText: text !== '' ? text : undefined }),
-	setFilterProperty: (property) => set({ filterProperty: property }),
-	setSortingProperty: (property) => set({ sortingProperty: property }),
-	setSortingOrder: (order) => set({ sortingOrder: order }),
+	setFilterByText: (text) => set({ filterMatchingText: text !== '' ? text : undefined, pageSkip:0 }),
+	setFilterProperty: (property) => set({ filterProperty: property, pageSkip:0 }),
+	setSortingProperty: (property) => set({ sortingProperty: property , pageSkip:0}),
+	setSortingOrder: (order) => set({ sortingOrder: order , pageSkip:0}),
 	setCount: (count) => {
 		if (Number.isInteger(count)) {
 			set({ count: count });
