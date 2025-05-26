@@ -168,7 +168,8 @@ const VehicleHub = () => {
 	];
 
 	// Backend
-	const query = useQueryVehicles();
+	const getAllVehicles = isPilot
+	const query = useQueryVehicles(getAllVehicles);
 	const { vehicles, count } = query;
 
 	const updateVehicle = useUpdateVehicle();
