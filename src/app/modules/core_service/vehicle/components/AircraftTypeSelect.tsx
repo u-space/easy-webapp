@@ -47,6 +47,10 @@ interface AircraftTypesSelectProps {
 	onSelected: (aircraftType: AircraftType) => void;
 }
 
+const AircraftTypeDisplayName = (aircraftType :AircraftType) => {
+	return `${aircraftType.manufacturer} ${aircraftType.model}`
+}
+
 const AircraftTypeSelect: React.FC<AircraftTypesSelectProps> = ({
 	aircraftTypes,
 	onSelected,
@@ -55,7 +59,7 @@ const AircraftTypeSelect: React.FC<AircraftTypesSelectProps> = ({
 	const { t } = useTranslation();
 	return (
 		<Select2<AircraftType>
-			items={aircraftTypes}
+			items={aircraftTypes.sort((at1,at2)=> AircraftTypeDisplayName(at1).localeCompare(AircraftTypeDisplayName(at2)))}
 			fill={true}
 			itemPredicate={filterAircraftType}
 			itemRenderer={renderAircraftType}
