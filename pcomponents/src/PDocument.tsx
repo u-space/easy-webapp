@@ -44,6 +44,7 @@ export interface PDocumentProps {
 	canValidate?: boolean;
 	isAdmin?: boolean;
 	isLoading?: boolean;
+	deleteDocument?: (id:string) => void;
 }
 
 export interface ExtraInfoPanelProps {
@@ -527,6 +528,7 @@ const PDocument = (props: PDocumentProps) => {
 		canValidate,
 		isAdmin = false,
 		isLoading = false,
+		deleteDocument,
 	} = props;
 	const [isShowingEditingModal, setShowingEditingModalFlag] = useState(
 		document.isBeingAdded || false
@@ -667,6 +669,19 @@ const PDocument = (props: PDocumentProps) => {
 									}}
 								>
 									{validateText}
+								</PButton>
+							)}
+							{isAdmin && deleteDocument && (
+								<PButton
+									// disabled={(!document.valid && new Date(document.valid_until) < new Date())}
+									variant={PButtonType.SECONDARY}
+									size={PButtonSize.SMALL}
+									onClick={() => {
+										// alert('Deleting ' + document.id);
+										deleteDocument(document.id);
+									}}
+								>
+									{t('Delete')}
 								</PButton>
 							)}
 						</>

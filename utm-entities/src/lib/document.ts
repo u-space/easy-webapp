@@ -128,6 +128,17 @@ export const getDocumentAPIClient = (api: string, token: string | null) => {
 				{ headers }
 			);
 		},
+		async deleteDocument(id: string) {
+			const headers = {
+				'Content-Type': 'application/json',
+				auth: `${token}`
+			};
+
+			return axiosInstance.delete<any>(
+				`/document/${id}`,
+				{ headers }
+			);
+		},
 		async saveDocumentObservation(
 			id: string,
 			body: { observation: string; userToNotify: string }

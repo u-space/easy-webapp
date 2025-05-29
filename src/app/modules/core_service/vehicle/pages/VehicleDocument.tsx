@@ -14,6 +14,7 @@ import { useAuthIsAdmin } from '../../../auth/store';
 import {
 	UseUpdateDocumentObservationParams,
 	UseUpdateDocumentValidationParams,
+	useDeleteDocument,
 	useDocumentTagSchema,
 	useUpdateDocumentObservation,
 	useUpdateDocumentValidation
@@ -83,6 +84,13 @@ export const VehicleDocument: FC<VehicleDocumentProps> = ({
 
 	const updateDocumentObservationMutation = useUpdateDocumentObservation();
 	const updateDocumentValidationMutation = useUpdateDocumentValidation();
+	const deleteDocumentMutation = useDeleteDocument();
+
+	const deleteDocument = (id:string) => {
+		deleteDocumentMutation.mutate({
+			docId: id
+		});
+	};
 
 	useEffect(() => {
 		if (schemaQuery.data && schemaQuery.data.__metadata && schemaQuery.data.__metadata.expirable === false) {
@@ -184,6 +192,7 @@ export const VehicleDocument: FC<VehicleDocumentProps> = ({
 						}
 						: undefined
 				}
+				deleteDocument={deleteDocument}
 				onSaveObservation={onSaveObservation}
 				onSaveValidation={onSaveValidation}
 				canValidate={canValidate}

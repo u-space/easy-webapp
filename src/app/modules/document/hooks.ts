@@ -38,6 +38,31 @@ export const useUpdateDocumentValidation = () => {
 	});
 };
 
+export interface UseDeleteDocumentParams {
+	docId: string;
+}
+
+export const useDeleteDocument = () => {
+	const queryClient = useQueryClient();
+
+	const {
+		document: { deleteDocument }
+	} = useCoreServiceAPI();
+
+	return useMutation<
+		AxiosResponse<any>,
+		AxiosError,
+		UseDeleteDocumentParams
+	>((params) => deleteDocument(params.docId), {
+		onSuccess: () => {
+			window.location.href = `${window.location.href}`;
+		},
+		onError: (error) => {
+			getWebConsoleLogger().getBackendError(error);
+		}
+	});
+};
+
 export interface UseUpdateDocumentObservationParams {
 	docId: string;
 	body: {

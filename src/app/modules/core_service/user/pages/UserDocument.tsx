@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { showDate } from 'src/app/commons/displayUtils';
 import { useAuthIsAdmin, useAuthGetRole } from '../../../auth/store';
 import {
+	useDeleteDocument,
 	useDocumentTagSchema,
 	useUpdateDocumentObservation,
 	useUpdateDocumentValidation
@@ -36,6 +37,13 @@ export const UserDocument = (props: UserDocumentProps) => {
 
 	const updateDocumentValidationMutation = useUpdateDocumentValidation();
 	const updateDocumentObservationMutation = useUpdateDocumentObservation();
+	const deleteDocumentMutation = useDeleteDocument();
+
+	const deleteDocument = (id: string) => {
+		deleteDocumentMutation.mutate({
+			docId: id
+		});
+	};
 
 	const onSaveObservation = (observation: string) => {
 		updateDocumentObservationMutation.mutate({
@@ -86,6 +94,8 @@ export const UserDocument = (props: UserDocumentProps) => {
 					}
 					onSaveObservation={onSaveObservation}
 					onSaveValidation={onSaveValidation}
+					deleteDocument={deleteDocument}
+
 					isAdmin={isAdmin}
 					canValidate={canValidate}
 					isLoading={updateDocumentValidationMutation.isLoading || updateDocumentObservationMutation.isLoading}
