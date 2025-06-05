@@ -169,30 +169,12 @@ const VolumesStep = (props: VolumesStepProps) => {
 	);
 
 	useEffect(() => {
-		setModalProps(getUserSelectIntervalModalProps());
-		if (polygon && flightRequest.volumes.length > 1) {
-			//FIXME Bydefault thre are a dummy volume in the list
-			const position = polygon.coordinates[0]; //flightRequest.volumes[0].operation_geography?.coordinates[0];
-			const dateStartList = [];
-			for (let i = 0; i < flightRequest.volumes.length; i++) {
-				if (flightRequest.volumes[i].effective_time_begin) {
-					const start = new Date(flightRequest.volumes[i].effective_time_begin || '');
-					const startString = start.toISOString().split('T')[0];
-					dateStartList.push(startString);
-				}
-			}
-			// if (position) {
-			// 	fetchSunrise(dateStartList, position[0][0], position[0][1]);
-			// }
-		} else {
-			setIsOnNight(false);
+		if (polygon && flightRequest.volumes.length < 2) {
+			setModalProps(getUserSelectIntervalModalProps());
 		}
 	}, [
-		startDate,
-		endDate,
 		polygon,
 		flightRequest.volumes,
-		setIsOnNight,
 		setModalProps,
 		getUserSelectIntervalModalProps
 	]);
@@ -205,8 +187,8 @@ const VolumesStep = (props: VolumesStepProps) => {
 
 	const onPolygonsUpdated = useCallback(
 		(polygons: Polygon[]) => {
+			const needToOpenModal = (polygon !== undefined);
 			setPolygon(polygons[0]);
-			setModalProps(getUserSelectIntervalModalProps());
 		},
 		[getUserSelectIntervalModalProps, setPolygon, setModalProps]
 	);
