@@ -202,6 +202,10 @@ const CoordinationsStep = (props: FlightRequestCoordinationsStepProps) => {
 		return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 	}
 
+	function dontNeedAnyCoordination() {
+		return !needBvlosCoordination(flightRequest) && !needAltitudeCoordination(flightRequest) && coordinators.length === 0;
+	}
+
 	return (
 		<DashboardLayout isLoading={isLoading || saveFlightRequestMutation.isLoading}>
 			<PageLayout
@@ -243,6 +247,7 @@ const CoordinationsStep = (props: FlightRequestCoordinationsStepProps) => {
 						</aside>
 						<section className={styles.details}>
 							{isLoading && <Spinner />}
+							{dontNeedAnyCoordination() && <p>{t('glossary:flightRequest:noCoordinationMsg')}</p>}
 							{coordinators &&
 								coordinators.map((coordinationZone, index) => (
 									<>
