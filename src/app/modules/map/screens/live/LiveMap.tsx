@@ -24,6 +24,7 @@ import PButton from '@pcomponents/PButton';
 import { getCSSVariable } from '@pcomponents/utils';
 import { TokyoPick } from '@tokyo/types';
 import { Polygon } from 'geojson';
+import { useAuthGetRole } from 'src/app/modules/auth/store';
 import {
 	useOwnedFlightRequests,
 	useSelectedFlightRequest
@@ -76,6 +77,7 @@ const LiveMap = () => {
 	const { rfv, selected: rfvSelection } = useSelectedRfv();
 	const { uvr, selected: uvrSelection } = useSelectedUvr();
 	const { flightRequest, selected: frSelection } = useSelectedFlightRequest();
+	const role = useAuthGetRole();
 
 	const frQuery = useOwnedFlightRequests();
 	const flightRequests: FlightRequestEntity[] = frQuery.flightRequests;
@@ -132,6 +134,10 @@ const LiveMap = () => {
 		},
 		[history]
 	);
+
+	const redirectToCreateOperation = useCallback(() => {
+		history.push('/editor/operation');
+	}, [])
 
 	useEffect(() => {
 		if (volume) {
@@ -207,7 +213,9 @@ const LiveMap = () => {
 		handlers: {
 			vehicleClick: onVehicleClick
 		},
-		selected
+		selected,
+		role,
+		redirectToCreateOperation
 	};
 
 	return (

@@ -41,6 +41,8 @@
 	export let rfvs: LiveMapViewProps['rfvs'] = [];
 	export let uvrs: LiveMapViewProps['uvrs'] = [];
 	export let flightRequests: LiveMapViewProps['flightRequest'] = [];
+	export let role: LiveMapViewProps['role'];
+	export let redirectToCreateOperation: LiveMapViewProps['redirectToCreateOperation'];
 	$: vehiclePositionsEntries = Array.from(vehiclePositions.entries());
 
 	export let selected: LiveMapViewProps['selected'] = null;
@@ -280,6 +282,17 @@
 				size={CSize.EXTRA_LARGE}
 				on:click={toggleLayersPanel}
 			/>
+			{#if role === 'PILOT'}
+				<CButton
+					size={CSize.EXTRA_LARGE}
+					icon="plus-circle"
+					tooltip={{
+						text: t('ui:Create new operation'),
+						position: CTooltipPosition.Left
+					}}
+					on:click={() => redirectToCreateOperation()}
+				/>
+			{/if}
 		</div>
 	</Tokyo>
 	<!-- This works properly
@@ -364,6 +377,7 @@
 
 	.controls {
 		display: flex;
+		flex-direction: column;
 		justify-content: flex-end;
 		gap: 0.5em;
 	}

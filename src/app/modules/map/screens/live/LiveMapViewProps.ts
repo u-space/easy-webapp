@@ -65,4 +65,6 @@ export interface LiveMapViewProps {
 	controlsOptions: Partial<ControlsOptions>;
 	selected: LiveMapSelected;
 	vehiclePositions: Map<string, PositionEntity[]>;
+	role: string;
+	redirectToCreateOperation: () => void;
 }
