@@ -162,7 +162,7 @@ const CoordinationsStep = (props: FlightRequestCoordinationsStepProps) => {
 			flightRequest.operator.canOperate;
 
 		if (!(hasGeographicalZoneIntersections || specialCoordinations)) {
-			return t('glossary:flightRequest:noCoordination');
+			return t('glossary:flightRequest:noCoordinationMsg');
 		} else if (!operatorCanOPerate) {
 			return t('ui:user_cant_create_operation');
 		} else {
