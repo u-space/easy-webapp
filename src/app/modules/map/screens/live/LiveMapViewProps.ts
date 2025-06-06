@@ -5,6 +5,7 @@ import { PositionEntity } from '@utm-entities/position';
 import { ControlsOptions, TokyoPick } from '@tokyo/types';
 import { BaseOperation } from '@utm-entities/v2/model/operation';
 import { FlightRequestEntity } from '@flight-request-entities/flightRequest';
+import { AuthRole } from 'src/app/modules/auth/store';
 
 export enum LiveMapSelectableType {
 	OPERATION = 'operation',
@@ -65,6 +66,6 @@ export interface LiveMapViewProps {
 	controlsOptions: Partial<ControlsOptions>;
 	selected: LiveMapSelected;
 	vehiclePositions: Map<string, PositionEntity[]>;
-	role: string;
+	role: AuthRole;
 	redirectToCreateOperation: () => void;
 }

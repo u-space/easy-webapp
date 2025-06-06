@@ -26,6 +26,7 @@
 	import { createEventDispatcher, onMount } from 'svelte';
 	import LiveMapPick from './LiveMapPick.svelte';
 	import { LiveMapViewProps } from './LiveMapViewProps';
+	import { AuthRole } from 'src/app/modules/auth/store';
 
 	const dispatch = createEventDispatcher<{
 		picked: TokyoPick; // ID of Picked Entity
@@ -282,7 +283,7 @@
 				size={CSize.EXTRA_LARGE}
 				on:click={toggleLayersPanel}
 			/>
-			{#if role === 'PILOT'}
+			{#if role === AuthRole.PILOT}
 				<CButton
 					size={CSize.EXTRA_LARGE}
 					icon="plus-circle"
