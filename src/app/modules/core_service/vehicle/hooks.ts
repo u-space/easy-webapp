@@ -73,7 +73,11 @@ export function useGetVehiclesByOperator(username: string) {
 		() => getVehiclesByOperator(username, 200, 0),
 		{
 			retry: false,
-			enabled: !!username
+			enabled: !!username,
+			retryDelay: 0,
+			refetchInterval: false,
+			refetchIntervalInBackground: false,
+			refetchOnWindowFocus: false,
 		}
 	); // TODO: Do show an error in case isErrorVehicles
 	const data = (!query.isError) ? query.data?.data.vehicles : [];

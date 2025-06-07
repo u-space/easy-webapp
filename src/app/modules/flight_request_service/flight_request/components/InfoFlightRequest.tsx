@@ -23,6 +23,7 @@ import CardGroup from '../../../../commons/layouts/dashboard/menu/CardGroup';
 import { useCoreServiceAPI } from '../../../../utils';
 import { useAuthIsAdmin, useAuthIsPilot, useAuthStore } from '../../../auth/store';
 import { useSchemaStore } from '../../../schemas/store';
+import { useGetVehiclesByOperator } from 'src/app/modules/core_service/vehicle/hooks';
 const CVehicleSelector = reactify(CVehicleSelectorSvelte);
 
 interface FlightRequestInfoProps {
@@ -132,14 +133,18 @@ const InfoFlightRequest: FC<InfoFlightRequestProps> = ({
 		vehicle: { getVehiclesByOperator }
 	} = useCoreServiceAPI();
 
-	const queryVehicles = useQuery(
-		[`short_vehicles`, operator],
-		() => getVehiclesByOperator(operator, 99, 0),
-		{
-			retry: false,
-			enabled: operator.length > 0
-		}
-	);
+	// const queryVehicles = useQuery(
+	// 	[`short_vehicles`, operator],
+	// 	() => getVehiclesByOperator(operator, 99, 0),
+	// 	{
+	// 		retry: false,
+	// 		enabled: operator.length > 0,
+	// 		refetchOnWindowFocus: false,
+	// 	}
+	// );
+
+	const queryVehicles = useGetVehiclesByOperator(operator);
+
 	const onSelectUserForAdmins = (_value: UserEntity[]) => {
 		flightRequest.setUavs([]);
 		if (_value.length > 0) {
@@ -216,20 +221,20 @@ const InfoFlightRequest: FC<InfoFlightRequestProps> = ({
 				)}
 			</div>
 			<div>
-				{queryVehicles.isSuccess &&
-					queryVehicles.data.data.vehicles.filter(
+				{queryVehicles.isSuccess && queryVehicles.data &&
+					queryVehicles.data.filter(
 						(v) => v.authorized === VehicleAuthorizationStatus.AUTHORIZED
 					).length === 0 && <h3>{t('You do not have any authorized vehicles')}</h3>}
 				<CVehicleSelector
 					vehicles={
-						queryVehicles.isSuccess
-							? queryVehicles.data.data.vehicles.sort((v1, v2) => {
-									if (vehicleFullAuthorized(v1) && !vehicleFullAuthorized(v2))
-										return -1;
-									if (!vehicleFullAuthorized(v1) && vehicleFullAuthorized(v2))
-										return 1;
-									return 0;
-							  })
+						queryVehicles.isSuccess && queryVehicles.data
+							? queryVehicles.data.sort((v1, v2) => {
+								if (vehicleFullAuthorized(v1) && !vehicleFullAuthorized(v2))
+									return -1;
+								if (!vehicleFullAuthorized(v1) && vehicleFullAuthorized(v2))
+									return 1;
+								return 0;
+							})
 							: []
 					}
 					onSelect={(event) =>
