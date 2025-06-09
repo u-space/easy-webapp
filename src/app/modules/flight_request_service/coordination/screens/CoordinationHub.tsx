@@ -19,22 +19,25 @@ interface ExtraActionsProps {
 	data: CoordinationEntity;
 }
 
-const ExtraActions: FC<ExtraActionsProps> = ({ data }) => {
-	const history = useHistory();
-	return (
-		<PTooltip content={data.geographical_zone ? 'Show on map' : 'No geographical zone'}>
-			<PButton
-				size={PButtonSize.SMALL}
-				icon={'eye-open'}
-				variant={PButtonType.SECONDARY}
-				disabled={!data.geographical_zone}
-				onClick={() =>
-					history.replace('/map?geographical-zone=' + data.geographical_zone.id)
-				}
-			/>
-		</PTooltip>
-	);
-};
+
+// const ExtraActions: FC<ExtraActionsProps> = ({ data }) => {
+// 	console.log(' -> ::: COordination entity:::');
+// 	console.log(JSON.stringify(data, null, 2));
+// 	const history = useHistory();
+// 	return (
+// 		<PTooltip content={data.geographical_zone ? 'Show on map' : 'No geographical zone'}>
+// 			<PButton
+// 				size={PButtonSize.SMALL}
+// 				icon={'eye-open'}
+// 				variant={PButtonType.SECONDARY}
+// 				disabled={!data.geographical_zone}
+// 				onClick={() =>
+// 					history.replace('/map?geographical-zone=' + data.coordinator?.geographical_zone?[0]['id']).
+// 				}
+// 			/>
+// 		</PTooltip>
+// 	);
+// };
 
 const CoordinationHub = () => {
 	// Other hooks
@@ -131,7 +134,7 @@ const CoordinationHub = () => {
 	return (
 		<GenericHub<CoordinationEntity>
 			idProperty={'id'}
-			extraActions={ExtraActions as GenericHubProps<CoordinationEntity>['extraActions']}
+			// extraActions={ExtraActions as GenericHubProps<CoordinationEntity>['extraActions']}
 			getData={getData}
 			entitySearchTools={CoordinationSearchTools}
 			entityPage={ViewAndEditCoordination}
