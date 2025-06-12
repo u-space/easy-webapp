@@ -32,6 +32,7 @@ import { useQueryVehicle } from '../../../core_service/vehicle/hooks';
 import { useUpdateCoordination } from '../../coordination/hooks';
 import { useUpdateFlightRequestState } from '../hooks';
 import { getAsDMS } from '@utm-entities/v2/model/operation_volume';
+import PFileInput from '@pcomponents/PFileInput';
 
 const specialProps = ['volumes', 'uavs', 'operator', 'paid', 'id'];
 
@@ -600,6 +601,45 @@ const CreatorDetails: FC<CreatorDetailsProps> = ({ ls }) => {
 	);
 };
 
+interface DocumentDetailsProps {
+	ls: UseLocalStoreEntity<FlightRequestEntity>;
+	isEditing: boolean;
+}
+
+const DocumentDetails: FC<DocumentDetailsProps> = ({ ls, isEditing }) => {
+	const { t } = useTranslation();
+
+	return (
+		<>
+			<PFileInput
+				id='editor-flightRequest-document'
+				label={t('Document') + ' 1'}
+				labelInfo={ls.entity.document1?.name}
+				defaultValue={ls.entity.document1}
+				onChange={(value) => {
+					ls.entity.set('document1', value);
+				}}
+				isDarkVariant
+				isRequired={false}
+				disabled={!isEditing}
+
+			/>
+			<PFileInput
+				id='editor-flightRequest-document2'
+				label={t('Document') + ' 2'}
+				labelInfo={ls.entity.document2?.name}
+				defaultValue={ls.entity.document2}
+				onChange={(value) => {
+					ls.entity.set('document2', value);
+				}}
+				isDarkVariant
+				isRequired={false}
+				disabled={!isEditing}
+			/>
+		</>
+	);
+}
+
 interface ViewAndEditFlightRequestProps {
 	ls: UseLocalStoreEntity<FlightRequestEntity>;
 	isEditing: boolean;
@@ -685,6 +725,12 @@ const ViewAndEditFlightRequest: FC<ViewAndEditFlightRequestProps> = ({
 				</aside>
 				<section className={styles.details}>
 					<FlightRequestCoordinations isEditing={isEditing} ls={ls} />
+				</section>
+				<aside className={styles.summary}>
+					<h2>{t('Flight Request documents')}</h2>
+				</aside>
+				<section className={styles.details}>
+					<DocumentDetails isEditing={isEditing} ls={ls} />
 				</section>
 			</div>
 		</div>

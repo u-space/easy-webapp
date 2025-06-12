@@ -311,12 +311,12 @@ export const getFlightRequestAPIClient = (api: string, token: string | null) => 
 		async updateFlightRequestDocument(flightRequestId: string, flightRequest: FlightRequestEntity) {
 			const formData = new FormData();
 
-			if (flightRequest.document1) {
+			if (flightRequest.document1Update && flightRequest.document1) {
 				console.log('flightRequest.document1', flightRequest.document1);
 				formData.append('document1', flightRequest.document1);
 				formData.append('document1_name', flightRequest.document1.name);
 			}
-			if (flightRequest.document2) {
+			if (flightRequest.document2Update && flightRequest.document2) {
 				console.log('flightRequest.document2', flightRequest.document2);
 				formData.append('document2', flightRequest.document2);
 				formData.append('document2_name', flightRequest.document2.name);

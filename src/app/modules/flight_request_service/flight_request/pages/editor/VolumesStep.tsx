@@ -53,7 +53,7 @@ const VolumesStep = (props: VolumesStepProps) => {
 	const [startDate, setStartDate] = useState<Date>(tenDaysFromNow);
 
 	const [endDate, setEndDate] = useState<Date>(addHours(tenDaysFromNow, 4));
-	const [file, setFile] = useState<File | null>(null);
+	// const [file, setFile] = useState<File | null>(null);
 
 	const { t } = useTranslation();
 
@@ -312,27 +312,27 @@ const VolumesStep = (props: VolumesStepProps) => {
 					</div>
 					<div>
 						<PFileInput
-							id='editor-flightRequest-file'
-							label={t('File')}
-							labelInfo={t('File info')}
-							defaultValue={file}
+							id='editor-flightRequest-document'
+							label={t('Document') + ' 1'}
+							// labelInfo={flightRequest.document1?.name}
+							defaultValue={flightRequest.document1}
 							onChange={(value) => {
 								flightRequest.set('document1', value);
 							}}
 							isDarkVariant
-							isRequired={true}
+							isRequired={false}
 							API={'changeme'}
 						/>
 						<PFileInput
-							id='editor-flightRequest-file2'
-							label={t('File')}
-							labelInfo={t('File info')}
-							defaultValue={file}
+							id='editor-flightRequest-document2'
+							label={t('Document') + ' 2'}
+							// labelInfo={flightRequest.document2?.name}
+							defaultValue={flightRequest.document2}
 							onChange={(value) => {
 								flightRequest.set('document2', value);
 							}}
 							isDarkVariant
-							isRequired={true}
+							isRequired={false}
 							API={'changeme'}
 						/>
 					</div>

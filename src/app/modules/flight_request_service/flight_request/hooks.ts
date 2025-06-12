@@ -148,21 +148,23 @@ export function useQueryFlightRequests(all = false): IUseQueryFlightRequests & a
 
 export function useUpdateFlightRequest() {
 	const queryClient = useQueryClient();
+	const { mutate } = useMutateFlightRequestDocuments();
 
 	const {
 		flightRequest: { updateFlightRequest }
 	} = useFlightRequestServiceAPI();
 
-	return useMutation<
-		AxiosResponse<FlightRequestEntity>,
-		AxiosError<{ message?: string }>,
+	return useMutation<AxiosResponse<FlightRequestEntity>, AxiosError<{ message?: string }>,
 		{ entity: FlightRequestEntity }
 	>(
-		async ({ entity: flightRequest }) => {
-			return updateFlightRequest(flightRequest);
+		async ({ entity: flightRequestEntity }) => {
+			if (flightRequestEntity.id) {
+				await mutate({ id: flightRequestEntity.id, flightRequest: flightRequestEntity });
+			}
+			return updateFlightRequest(flightRequestEntity);
 		},
 		{
-			onSuccess: () => {
+			onSuccess: ({ data }) => {
 				// Invalidate and refetch
 				queryClient.invalidateQueries('flightRequest').then(() => {
 					return;
