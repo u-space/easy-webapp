@@ -49,6 +49,12 @@ export class FlightRequestEntity implements EntityHasDisplayName {
 	flight_category: FlightCategory;
 	geographicalZones?: GeographicalZone[] = [];
 	bvlos: boolean;
+	document1?: File;
+	document2?: File;
+	document1Update: boolean;
+	document2Update: boolean;
+
+
 
 	[key: string]: FlightRequestEntity[keyof FlightRequestEntity];
 
@@ -73,7 +79,9 @@ export class FlightRequestEntity implements EntityHasDisplayName {
 			id,
 			paid,
 			createdAt,
-			bvlos
+			bvlos,
+			document1,
+			document2
 		} = existing;
 
 		this.name = name;
@@ -98,6 +106,10 @@ export class FlightRequestEntity implements EntityHasDisplayName {
 		this.paid = paid;
 		this.createdAt = createdAt;
 		this.bvlos = bvlos || false;
+		this.document1 = document1;
+		this.document2 = document2;
+		this.document1Update = false;
+		this.document2Update = false;
 
 		makeAutoObservable(this);
 	}
@@ -175,6 +187,12 @@ export class FlightRequestEntity implements EntityHasDisplayName {
 		value: FlightRequestEntity[keyof FlightRequestEntity]
 	) {
 		if (property === 'displayName') return;
+		if (property === 'document1') {
+			this.document1Update = true;
+		}
+		if (property === 'document2') {
+			this.document2Update = true;
+		}
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore
 		this[property] = value;
@@ -237,7 +255,7 @@ export const getFlightRequestAPIClient = (api: string, token: string | null) => 
 	});
 
 	return {
-		async saveFlightRequest(flightRequest: FlightRequestEntity) {
+		async saveFlightRequest(flightRequest: FlightRequestEntity): Promise<FlightRequestEntity> {
 			const { data } = await axiosInstance.post(
 				'/flightRequest',
 				flightRequest.asBackendFormat,
@@ -286,6 +304,29 @@ export const getFlightRequestAPIClient = (api: string, token: string | null) => 
 				{ state },
 				{
 					headers: { auth: token }
+				}
+			);
+			return data;
+		},
+		async updateFlightRequestDocument(flightRequestId: string, flightRequest: FlightRequestEntity) {
+			const formData = new FormData();
+
+			if (flightRequest.document1) {
+				console.log('flightRequest.document1', flightRequest.document1);
+				formData.append('document1', flightRequest.document1);
+				formData.append('document1_name', flightRequest.document1.name);
+			}
+			if (flightRequest.document2) {
+				console.log('flightRequest.document2', flightRequest.document2);
+				formData.append('document2', flightRequest.document2);
+				formData.append('document2_name', flightRequest.document2.name);
+			}
+
+			const { data } = await axiosInstance.post(
+				`/flightRequest/${flightRequestId}/document`,
+				formData,
+				{
+					headers: { "Content-Type": "multipart/form-data", auth: token }
 				}
 			);
 			return data;

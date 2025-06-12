@@ -197,3 +197,30 @@ export function useUpdateFlightRequestState() {
 		}
 	);
 }
+
+export function useMutateFlightRequestDocuments() {
+	const queryClient = useQueryClient();
+
+	const {
+		flightRequest: { updateFlightRequestDocument }
+	} = useFlightRequestServiceAPI();
+
+	return useMutation<
+		AxiosResponse<void>,
+		AxiosError<{ message?: string }>,
+		{ id: string; flightRequest: FlightRequestEntity }
+	>(
+		async ({ id, flightRequest }) => {
+			return updateFlightRequestDocument(id, flightRequest);
+		},
+		{
+			onSuccess: () => {
+				// Invalidate and refetch
+				queryClient.invalidateQueries('flightRequest').then(() => {
+					return;
+				});
+				// window.location.href = `${window.location.href}`;
+			}
+		}
+	);
+}

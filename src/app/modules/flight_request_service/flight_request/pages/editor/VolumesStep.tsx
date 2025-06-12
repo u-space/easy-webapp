@@ -17,6 +17,7 @@ import EditorMapViewSvelte from '../../../../map/screens/editor/EditorMapView.sv
 import { useQueryGeographicalZones } from '../../../geographical_zone/hooks';
 import InfoFlightRequest from '../../components/InfoFlightRequest';
 import { useOwnedFlightRequests } from '../../hooks';
+import PFileInput from '@pcomponents/PFileInput';
 
 const ONE_VOLUME_PER_DAY = false;
 
@@ -52,6 +53,7 @@ const VolumesStep = (props: VolumesStepProps) => {
 	const [startDate, setStartDate] = useState<Date>(tenDaysFromNow);
 
 	const [endDate, setEndDate] = useState<Date>(addHours(tenDaysFromNow, 4));
+	const [file, setFile] = useState<File | null>(null);
 
 	const { t } = useTranslation();
 
@@ -306,6 +308,32 @@ const VolumesStep = (props: VolumesStepProps) => {
 									volume.set('max_altitude', value);
 								});
 							}}
+						/>
+					</div>
+					<div>
+						<PFileInput
+							id='editor-flightRequest-file'
+							label={t('File')}
+							labelInfo={t('File info')}
+							defaultValue={file}
+							onChange={(value) => {
+								flightRequest.set('document1', value);
+							}}
+							isDarkVariant
+							isRequired={true}
+							API={'changeme'}
+						/>
+						<PFileInput
+							id='editor-flightRequest-file2'
+							label={t('File')}
+							labelInfo={t('File info')}
+							defaultValue={file}
+							onChange={(value) => {
+								flightRequest.set('document2', value);
+							}}
+							isDarkVariant
+							isRequired={true}
+							API={'changeme'}
 						/>
 					</div>
 				</InfoFlightRequest>

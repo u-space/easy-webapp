@@ -20,6 +20,7 @@ import { useHistory } from 'react-router-dom';
 import { UserEntity } from '@utm-entities/user';
 import PTooltip from '@pcomponents/PTooltip';
 import { CoordinatorEntity } from '@flight-request-entities/coordinator';
+import { useMutateFlightRequestDocuments } from '../../hooks';
 
 interface FlightRequestCoordinationsStepProps {
 	previousStep: () => void;
@@ -87,12 +88,19 @@ const CoordinationsStep = (props: FlightRequestCoordinationsStepProps) => {
 		flightRequest: { saveFlightRequest }
 	} = useFlightRequestServiceAPI();
 
+	const { mutate } = useMutateFlightRequestDocuments();
+
 	const saveFlightRequestMutation = useMutation(
 		async () => {
 			return saveFlightRequest(flightRequest);
 		},
 		{
-			onSuccess: (data) => {
+			onSuccess: (data: FlightRequestEntity) => {
+				const id = data.id;
+				if (id === undefined) {
+					throw new Error('Flight request id is undefined');
+				};
+				mutate({ id: id, flightRequest });
 				setModalProps({
 					isVisible: true,
 					type: PModalType.SUCCESS,
