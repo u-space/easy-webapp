@@ -577,6 +577,7 @@
 	"Need coordination for night flight.": "Necesita coordinación para vuelo nocturno.",
 	"Need coordination for bvlos flight.": "Necesita coordinación por vuelo fuera de línea de vista.",
 	"Need coordination for zone x": "Necesita coodinación para zona {{x}}.",
+	"Need coordination fail vehicle check for operation in SOCA": "Aeronave elegida no está incluida en la SOCA otorgada para ese vuelo. Debe elegir una aeronave incluida en la solicitud o crear una solicitud nueva",
 	"You will be redirected to the soca creation": "Serás redirigido a la creación de Solicitud de Coordinación Administrativa (SOCA)",
 	"The start date must be greater than today": "La fecha de comienzo no puede ser menor a la fecha actual",
 	"The end date must be greater than today": "La fecha de finalización no puede ser menor a la fecha actual",
