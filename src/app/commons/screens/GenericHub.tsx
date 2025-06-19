@@ -455,7 +455,7 @@ function GenericHub<T extends GenericHubEntityType>(props: GenericHubProps<T>) {
 									isVisible={deleteQuery.isError}
 									buttons={<PButton onClick={resetError}>{t('Okay')}</PButton>}
 								>
-									<h1>{t('An error ocurred while deleting')}</h1>
+									<h1>{t('An error occurred while deleting')}</h1>
 									<p>
 										{translateErrors(deleteQuery.error, entityName).map(
 											(error) => (
