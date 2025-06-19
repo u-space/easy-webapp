@@ -18,6 +18,8 @@ import { useQueryGeographicalZones } from '../../../geographical_zone/hooks';
 import InfoFlightRequest from '../../components/InfoFlightRequest';
 import { useOwnedFlightRequests } from '../../hooks';
 import PFileInput from '@pcomponents/PFileInput';
+import PTooltip from '@pcomponents/PTooltip';
+import { Icon } from '@blueprintjs/core';
 
 const ONE_VOLUME_PER_DAY = false;
 
@@ -225,7 +227,7 @@ const VolumesStep = (props: VolumesStepProps) => {
 					}}
 				>
 					<div>
-						<p>{t('Time intervals')}</p>
+						<p>{t('Time intervals')}<span style={{ color: 'red' }}>*</span></p>
 						<div
 							style={{
 								display: 'flex',
@@ -308,20 +310,28 @@ const VolumesStep = (props: VolumesStepProps) => {
 									volume.set('max_altitude', value);
 								});
 							}}
+							isRequired
 						/>
 					</div>
-					<div>
+					<div style={{ order: 2 }}>
+						<h4>{t('Documents')}{' '}
+							<PTooltip
+								content={t('Flight Request documents explanations')}
+								placement='right'>
+								<Icon icon="help" />
+							</PTooltip>
+						</h4>
 						<PFileInput
 							id='editor-flightRequest-document'
 							label={t('Document') + ' 1'}
-							// labelInfo={flightRequest.document1?.name}
 							defaultValue={flightRequest.document1}
 							onChange={(value) => {
 								flightRequest.set('document1', value);
 							}}
-							isDarkVariant
+							isDarkVariant={false}
 							isRequired={false}
 							API={'changeme'}
+							inline={false}
 						/>
 						<PFileInput
 							id='editor-flightRequest-document2'
@@ -331,7 +341,7 @@ const VolumesStep = (props: VolumesStepProps) => {
 							onChange={(value) => {
 								flightRequest.set('document2', value);
 							}}
-							isDarkVariant
+							isDarkVariant={false}
 							isRequired={false}
 							API={'changeme'}
 						/>

@@ -241,7 +241,7 @@ const InfoFlightRequest: FC<InfoFlightRequestProps> = ({
 						flightRequest.setUavs((event as CustomEvent<VehicleEntity[]>).detail)
 					}
 				>
-					{t('Vehicles')}
+					<p>{t('Vehicles')} <span style={{ color: 'red' }}>*</span></p>
 				</CVehicleSelector>
 			</div>
 			<FlightRequestInfo

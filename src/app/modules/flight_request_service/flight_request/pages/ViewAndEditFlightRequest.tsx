@@ -728,6 +728,7 @@ const ViewAndEditFlightRequest: FC<ViewAndEditFlightRequestProps> = ({
 				</section>
 				<aside className={styles.summary}>
 					<h2>{t('Flight Request documents')}</h2>
+					{t('Flight Request documents explanations')}
 				</aside>
 				<section className={styles.details}>
 					<DocumentDetails isEditing={isEditing} ls={ls} />
