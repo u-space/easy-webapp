@@ -203,7 +203,7 @@ const InsuranceAndPaymentStep = (props: InsuranceAndPaymentStepProps) => {
 		},
 		{
 			onSuccess: (data) => {
-				window.location.href = data.paymentLink;
+				// window.location.href = data.paymentLink;
 			},
 			onError: (error) => {
 				setModalProps({
