@@ -13,7 +13,7 @@ import {
 import { useSelectedRfv } from '../../core_service/rfv/hooks';
 import { useSelectedUvr } from '../../core_service/uvr/hooks';
 import { useSelectedVehicle } from '../../core_service/vehicle/hooks';
-import { useSelectedFlightRequest } from '../../flight_request_service/flight_request/hooks';
+import { usePublicSelectedFlightRequest, useSelectedFlightRequest } from '../../flight_request_service/flight_request/hooks';
 import { useSelectedGeographicalZone } from '../../flight_request_service/geographical_zone/hooks';
 import GenericEntityDetails from './GenericEntityDetails';
 import OperationDetails from './OperationDetails';
@@ -48,6 +48,7 @@ const Menu = ({
 	const { rfv, selected: rfvSelection, query: querySelectedRfv } = useSelectedRfv();
 	const { uvr, selected: uvrSelection, query: querySelectedUvr } = useSelectedUvr();
 	const { flightRequest, selected: frSelection, query: querySelectedFr } = useSelectedFlightRequest();
+	const { flightRequest: publicFlightRequest, selected: publicFrSelection, query: querySelectedPublicFr } = usePublicSelectedFlightRequest();
 
 	if (operationSelection.gufi && operation) {
 		// Show details of selected operation
@@ -144,6 +145,33 @@ const Menu = ({
 				isLoading={querySelectedFr.isLoading}
 				isSuccess={querySelectedFr.isSuccess}
 				isError={querySelectedFr.isError}
+				entity={visibleFields}
+				baseLabelKey={'flight-request'}
+				label={t('Flight Request')}
+				canEdit={false}
+				extra={null}
+			/>
+		);
+
+	}
+	else if (publicFrSelection.flightRequest && publicFlightRequest) {
+		// Show details of selected flight request
+		const visibleFields: any = {}
+		visibleFields.id = publicFlightRequest.id;
+		visibleFields.name = publicFlightRequest.name;
+		visibleFields.effective_time_begin = (new Date(publicFlightRequest.volumes[0].effective_time_begin)).toLocaleString()
+		visibleFields.effective_time_end = (new Date(publicFlightRequest.volumes[0].effective_time_end)).toLocaleString()
+		const vehicles: string[] = publicFlightRequest.uavs.map((v: any) => {
+			return `${v.uvin}`
+		});
+		visibleFields.vehicles = vehicles.join('\n');
+
+		return (
+			<GenericEntityDetails
+				route={'/map'}
+				isLoading={querySelectedPublicFr.isLoading}
+				isSuccess={querySelectedPublicFr.isSuccess}
+				isError={querySelectedPublicFr.isError}
 				entity={visibleFields}
 				baseLabelKey={'flight-request'}
 				label={t('Flight Request')}

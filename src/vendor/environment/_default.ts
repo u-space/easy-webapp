@@ -48,6 +48,7 @@ interface Env {
 	public_url: string;
 	core_api: string;
 	flight_request_api?: string; // If not provided, the app will show a static error in those pages that depend on this service
+	flight_request_public_api?: string;
 	dev_server?: {
 		port: number;
 	};
@@ -69,7 +70,8 @@ const config: Env = {
 	production: false,
 	public_url: `https://${host}:${port}`,
 	core_api: `https://${host}:3000`,
-	flight_request_api: `https://${host}:3002`,
+	flight_request_api: `https://${host}:3002/api`,
+	flight_request_public_api: `https://${host}:3002/public`,
 	dev_server: {
 		port: port
 	},

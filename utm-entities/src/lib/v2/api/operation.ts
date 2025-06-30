@@ -143,7 +143,6 @@ export function getOperationAPIClient(api: string, token: string | null): Operat
 						return Promise.reject(e);
 					});
 			} catch (e) {
-				console.log('Esto se ejecuta?');
 				return Promise.reject(e);
 			}
 		},

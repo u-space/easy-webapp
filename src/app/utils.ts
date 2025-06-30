@@ -48,6 +48,10 @@ export const FlightRequestAPIContext = createContext(
 	getFlightRequestServiceAPIClient(env.flight_request_api || '', '')
 );
 
+export const PublicFlightRequestAPIContext = createContext(
+	getFlightRequestServiceAPIClient(env.flight_request_public_api || '', '')
+);
+
 export const getCSSVariable = (name: string) => {
 	return window.getComputedStyle(document.documentElement).getPropertyValue(`--${name}`);
 };
@@ -58,3 +62,4 @@ export const setCSSVariable = (name: string, value: string) => {
 
 export const useCoreServiceAPI = () => useContext(CoreAPIContext);
 export const useFlightRequestServiceAPI = () => useContext(FlightRequestAPIContext);
+export const usePublicFlightRequestServiceAPI = () => useContext(PublicFlightRequestAPIContext);

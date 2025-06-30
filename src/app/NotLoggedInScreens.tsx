@@ -1,20 +1,18 @@
 import { Route, Switch, useHistory } from 'react-router-dom';
-import VerificationScreen from './modules/auth/screens/VerificationScreen';
+import LoginScreen from './modules/auth/screens/LoginScreen';
+import PasswordResetRequest from './modules/auth/screens/PasswordResetRequest';
 import PasswordResetScreen from './modules/auth/screens/PasswordResetScreen';
 import RegisterScreen from './modules/auth/screens/RegisterScreen';
-import LoginScreen from './modules/auth/screens/LoginScreen';
-import { reactify } from 'svelte-preprocess-react';
-import LivePublicMapSvelte from './modules/map/screens/live/LivePublicMapV2App.svelte';
-import PasswordResetRequest from './modules/auth/screens/PasswordResetRequest';
+import VerificationScreen from './modules/auth/screens/VerificationScreen';
+import LivePublicMap from './modules/map/screens/live/LivePublicMap';
 
-const LiveMap = reactify(LivePublicMapSvelte);
 
 const NotLoggedInScreens = () => {
 	const history = useHistory();
 	return (
 		<Switch>
 			<Route exact path="/map">
-				<LiveMap history={history} />
+				<LivePublicMap />
 			</Route>
 			<Route exact path="/verify/:username">
 				<VerificationScreen />

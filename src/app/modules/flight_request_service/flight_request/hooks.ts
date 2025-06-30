@@ -3,7 +3,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { shallow } from 'zustand/shallow';
-import { useFlightRequestServiceAPI, useQueryString } from '../../../utils';
+import { useFlightRequestServiceAPI, usePublicFlightRequestServiceAPI, useQueryString } from '../../../utils';
 import { useAuthStore } from '../../auth/store';
 import { useFlightRequestStore } from './store';
 
@@ -17,6 +17,39 @@ export function useSelectedFlightRequest() {
 
 	const querySelectedFlightRequest = useQuery(
 		['flightRequest', id],
+		() => getFlightRequest(id ?? ''),
+		{
+			enabled: false,
+		}
+	);
+
+	useEffect(() => {
+		if (id) {
+			querySelectedFlightRequest.refetch();
+		}
+	}, [id]);
+
+	const flightRequest = querySelectedFlightRequest?.data?.data;
+
+	return {
+		flightRequest,
+		selected: {
+			flightRequest: id ?? null
+		},
+		query: querySelectedFlightRequest
+	};
+}
+
+export function usePublicSelectedFlightRequest() {
+	const queryString = useQueryString();
+	const id = queryString.get('flight-request');
+
+	const {
+		flightRequest: { getFlightRequest }
+	} = usePublicFlightRequestServiceAPI();
+
+	const querySelectedFlightRequest = useQuery(
+		['publicFlightRequest', id],
 		() => getFlightRequest(id ?? ''),
 		{
 			enabled: false,
@@ -131,6 +164,67 @@ export function useQueryFlightRequests(all = false): IUseQueryFlightRequests & a
 				filterMatchingText,
 				filterState,
 				false
+			)
+	);
+	const { data: response } = query;
+
+	const data = query.isSuccess && response ? response.data : null;
+	const flightRequests = data ? data.flightRequests : [];
+	const count = data ? data.count : 0;
+
+	return {
+		...query,
+		flightRequests,
+		count
+	};
+}
+
+export function useQueryPublicFlightRequests(all = false): IUseQueryFlightRequests & any {
+	const {
+		flightRequest: { getFlightRequests }
+	} = usePublicFlightRequestServiceAPI();
+
+	const {
+		pageTake,
+		pageSkip,
+		sortingProperty,
+		sortingOrder,
+		filterProperty,
+		filterMatchingText,
+		filterState
+	} = useFlightRequestStore(
+		(state) => ({
+			pageTake: state.pageTake,
+			pageSkip: state.pageSkip,
+			sortingProperty: state.sortingProperty,
+			sortingOrder: state.sortingOrder,
+			filterProperty: state.filterProperty,
+			filterMatchingText: state.filterMatchingText,
+			filterState: state.filterState
+		}),
+		shallow
+	);
+
+	const query = useQuery(
+		[
+			'publicFlightRequests',
+			all ? 99999 : pageTake,
+			pageSkip,
+			sortingProperty,
+			sortingOrder,
+			filterProperty,
+			filterMatchingText,
+		],
+		() =>
+			getFlightRequests(
+				pageTake,
+				pageSkip,
+				sortingProperty,
+				sortingOrder,
+				filterProperty,
+				filterMatchingText,
+				'COMPLETED',
+				true
 			)
 	);
 	const { data: response } = query;

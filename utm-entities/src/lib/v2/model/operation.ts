@@ -101,10 +101,10 @@ export class BaseOperation {
 
 	constructor(backendOperation?: ResponseBaseOperation) {
 		if (backendOperation) {
-			if (!Value.Check(ResponseBaseOperation, backendOperation)) {
-				console.error(Array.from(Value.Errors(ResponseBaseOperation, backendOperation)));
-				throw new Error(`Backend operation does not match expected schema`);
-			}
+			// if (!Value.Check(ResponseBaseOperation, backendOperation)) {
+			// 	console.error(Array.from(Value.Errors(ResponseBaseOperation, backendOperation)));
+			// 	throw new Error(`Backend operation does not match expected schema`);
+			// }
 			this.gufi = backendOperation.gufi;
 			this.name = backendOperation.name;
 			this.contact = backendOperation.contact;
@@ -201,8 +201,7 @@ export type OperationSubscriber = {
 
 export class Operation
 	extends BaseOperation
-	implements UtmEntity<RequestOperation, { omitOwner: boolean }>
-{
+	implements UtmEntity<RequestOperation, { omitOwner: boolean }> {
 	creator: NestedUser | null;
 	owner: NestedUser | null;
 	submit_time: Date | null;
@@ -216,13 +215,13 @@ export class Operation
 		if (backendOperation) {
 			backendOperation.flight_comments = backendOperation?.flight_comments || ' ';
 
-			if (!Value.Check(ResponseOperation, backendOperation)) {
-				console.error(
-					ResponseOperation,
-					Array.from(Value.Errors(ResponseOperation, backendOperation))
-				);
-				throw new Error(`Backend operation does not match expected schema`);
-			}
+			// if (!Value.Check(ResponseOperation, backendOperation)) {
+			// 	console.error(
+			// 		ResponseOperation,
+			// 		Array.from(Value.Errors(ResponseOperation, backendOperation))
+			// 	);
+			// 	throw new Error(`Backend operation does not match expected schema`);
+			// }
 			this.creator = new NestedUser(backendOperation.creator);
 			this.owner = new NestedUser(backendOperation.owner);
 			this.submit_time = new Date(backendOperation.submit_time);

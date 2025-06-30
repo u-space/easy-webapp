@@ -41,7 +41,7 @@
 	export let vehiclePositions: LiveMapViewProps['vehiclePositions'] = new Map();
 	export let rfvs: LiveMapViewProps['rfvs'] = [];
 	export let uvrs: LiveMapViewProps['uvrs'] = [];
-	export let flightRequests: LiveMapViewProps['flightRequest'] = [];
+	export let flightRequests: LiveMapViewProps['flightRequests'] = [];
 	export let role: LiveMapViewProps['role'];
 	export let redirectToCreateOperation: LiveMapViewProps['redirectToCreateOperation'];
 	$: vehiclePositionsEntries = Array.from(vehiclePositions.entries());
