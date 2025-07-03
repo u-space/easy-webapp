@@ -22,6 +22,7 @@ import InfoUvr from '../components/InfoUvr';
 import { useQueryUvr, useUpdateUvr } from '../hooks';
 import CardGroup from 'src/app/commons/layouts/dashboard/menu/CardGroup';
 import ContextualInfo from 'src/app/commons/layouts/map/editor_map/ContextualInfo';
+import env from 'src/vendor/environment/env';
 
 const EditorMapView = reactify(EditorMapViewSvelte);
 
@@ -119,7 +120,22 @@ const UvrEditor = () => {
 			mode: EditMode.SINGLE,
 			polygons
 		},
-		flightRequests: []
+		flightRequests: [],
+		controlsOptions: {
+			zoom: {
+				enabled: true
+			},
+			geocoder: {
+				enabled: true,
+				geoapifyApiKey: env.API_keys.geoapify
+			},
+			geolocator: {
+				enabled: true
+			},
+			backgroundModeSwitch: {
+				enabled: true
+			}
+		}
 	};
 	return (
 		<MapLayout

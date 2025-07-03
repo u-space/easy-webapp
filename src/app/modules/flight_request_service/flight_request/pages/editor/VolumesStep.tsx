@@ -20,6 +20,8 @@ import { useOwnedFlightRequests } from '../../hooks';
 import PFileInput from '@pcomponents/PFileInput';
 import PTooltip from '@pcomponents/PTooltip';
 import { Icon } from '@blueprintjs/core';
+import env from 'src/vendor/environment/env';
+
 
 const ONE_VOLUME_PER_DAY = false;
 
@@ -355,6 +357,24 @@ const VolumesStep = (props: VolumesStepProps) => {
 				geographicalZones={queryGeographicalZones.items}
 				onEdit={(event: any) => onPolygonsUpdated(event.detail)}
 				flightRequests={flightRequests}
+				controlsOptions={
+					{
+						zoom: {
+							enabled: true
+						},
+						geocoder: {
+							enabled: true,
+							geoapifyApiKey: env.API_keys.geoapify
+						},
+						geolocator: {
+							enabled: true
+						},
+						backgroundModeSwitch: {
+							enabled: true
+						}
+					}
+				}
+
 			/>
 			<PButton
 				style={{

@@ -380,8 +380,10 @@
 	#tokyo-geocoder {
 		position: absolute;
 		left: calc($gap * 2);
-		top: $gap;
-		width: 250px;
+		top: calc($gap + 25px);
+		width: 200px;
+		z-index: 20;
+		height: 35px;
 	}
 
 	#tokyo-zoom {

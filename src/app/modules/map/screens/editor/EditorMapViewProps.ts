@@ -1,6 +1,6 @@
 import { FlightRequestEntity } from '@flight-request-entities/flightRequest';
 import { GeographicalZone } from '@flight-request-entities/geographicalZone';
-import { EditOptions } from '@tokyo/types';
+import { ControlsOptions, EditOptions } from '@tokyo/types';
 import { UvrEntity } from '@utm-entities/uvr';
 
 export interface EditorMapViewProps {
@@ -8,4 +8,5 @@ export interface EditorMapViewProps {
 	flightRequests: FlightRequestEntity[];
 	uvrs?: UvrEntity[];
 	editOptions: EditOptions;
+	controlsOptions?: ControlsOptions;
 }

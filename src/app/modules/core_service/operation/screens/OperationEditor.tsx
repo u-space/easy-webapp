@@ -33,6 +33,7 @@ import { useQueryUser } from '../../user/hooks';
 import { useOwnedFlightRequests } from 'src/app/modules/flight_request_service/flight_request/hooks';
 import { FlightRequestEntity } from '@flight-request-entities/flightRequest';
 import useQueryUvrs from '../../uvr/hooks';
+import env from 'src/vendor/environment/env';
 
 const EditorMapView = reactify(EditorMapViewSvelte);
 
@@ -243,17 +244,16 @@ const OperationEditor = () => {
 							const volumeData =
 								operation.operation_volumes.length === 1
 									? {
-											effective_time_begin: vol.effective_time_begin,
-											effective_time_end: vol.effective_time_end,
-											min_altitude: vol.min_altitude,
-											max_altitude: vol.max_altitude,
-											beyond_visual_line_of_sight:
-												vol.beyond_visual_line_of_sight
-									  }
+										effective_time_begin: vol.effective_time_begin,
+										effective_time_end: vol.effective_time_end,
+										min_altitude: vol.min_altitude,
+										max_altitude: vol.max_altitude,
+										beyond_visual_line_of_sight:
+											vol.beyond_visual_line_of_sight
+									}
 									: undefined;
 							history.push(
-								`/editor/flightRequest/${JSON.stringify({ ...geo })}${
-									volumeData ? `/${JSON.stringify(volumeData)}` : ''
+								`/editor/flightRequest/${JSON.stringify({ ...geo })}${volumeData ? `/${JSON.stringify(volumeData)}` : ''
 								}`
 							);
 						}
@@ -294,7 +294,22 @@ const OperationEditor = () => {
 		},
 		geographicalZones: queryGeographicalZones.items,
 		flightRequests: flightRequests,
-		uvrs: uvrs
+		uvrs: uvrs,
+		controlsOptions: {
+			zoom: {
+				enabled: true
+			},
+			geocoder: {
+				enabled: true,
+				geoapifyApiKey: env.API_keys.geoapify
+			},
+			geolocator: {
+				enabled: true
+			},
+			backgroundModeSwitch: {
+				enabled: true
+			}
+		}
 	};
 
 	return (

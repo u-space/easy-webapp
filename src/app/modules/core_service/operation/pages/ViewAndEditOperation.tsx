@@ -247,7 +247,8 @@ const VolumeDetails: FC<VolumeDetailsProps> = ({ ls, isEditing, isAbleToChangeDa
 				enabled: true
 			},
 			geocoder: {
-				enabled: false
+				enabled: false,
+				geoapifyApiKey: env.API_keys.geoapify
 			}
 		},
 		t

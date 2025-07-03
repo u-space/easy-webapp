@@ -20,6 +20,7 @@ import EditorMapViewSvelte from '../../../map/screens/editor/EditorMapView.svelt
 import { EditorMapViewProps } from '../../../map/screens/editor/EditorMapViewProps';
 import InfoRfv from '../components/InfoRfv';
 import { useQueryRfv, useUpdateRfv } from '../hooks';
+import env from 'src/vendor/environment/env';
 
 const EditorMapView = reactify(EditorMapViewSvelte);
 
@@ -115,7 +116,22 @@ const RfvEditor = () => {
 			mode: EditMode.SINGLE,
 			polygons
 		},
-		flightRequests:[]
+		flightRequests: [],
+		controlsOptions: {
+			zoom: {
+				enabled: true
+			},
+			geocoder: {
+				enabled: true,
+				geoapifyApiKey: env.API_keys.geoapify
+			},
+			geolocator: {
+				enabled: true
+			},
+			backgroundModeSwitch: {
+				enabled: true
+			}
+		}
 	};
 	return (
 		<MapLayout

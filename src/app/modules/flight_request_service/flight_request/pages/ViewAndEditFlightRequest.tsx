@@ -244,10 +244,10 @@ const FlightRequestCoordinations: FC<FlightRequestCoordinationsProps> = ({ ls, i
 
 	function canEditCoordination(coordination: CoordinationEntity): boolean {
 		// emicito
-		// if (role === AuthRole.ADMIN) {
-		// 	return true;
-		// } else 
-		return coordination.role_manager.toLowerCase() === role.toLowerCase();
+		if (role === AuthRole.ADMIN) {
+			return true;
+		} else
+			return coordination.role_manager.toLowerCase() === role.toLowerCase();
 	}
 	if (!entity) {
 		return null;
@@ -480,7 +480,8 @@ const VolumeDetails: FC<VolumeDetailsProps> = ({ ls, volumeIndex, isEditing }) =
 				enabled: true
 			},
 			geocoder: {
-				enabled: false
+				enabled: false,
+				geoapifyApiKey: env.API_keys.geoapify
 			}
 		},
 		t
@@ -635,6 +636,7 @@ const DocumentDetails: FC<DocumentDetailsProps> = ({ ls, isEditing }) => {
 				isDarkVariant
 				isRequired={false}
 				disabled={!isEditing}
+
 			/>
 		</>
 	);

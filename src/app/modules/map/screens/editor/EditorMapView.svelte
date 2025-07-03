@@ -13,6 +13,20 @@
 	import { uvrTokyoConverter } from '@tokyo/converters/core/uvrDrawer';
 
 	export let editOptions: EditorMapViewProps['editOptions'];
+	export let controlsOptions: EditorMapViewProps['controlsOptions'] = {
+		zoom: {
+			enabled: true
+		},
+		geocoder: {
+			enabled: true
+		},
+		geolocator: {
+			enabled: false
+		},
+		backgroundModeSwitch: {
+			enabled: true
+		}
+	};
 	export let geographicalZones: EditorMapViewProps['geographicalZones'];
 	export let flightRequests: EditorMapViewProps['flightRequests'];
 	export let uvrs: EditorMapViewProps['uvrs'] = [];
@@ -24,7 +38,14 @@
 	};
 </script>
 
-<Tokyo {editOptions} mapOptions={{ isPickEnabled: false }} on:edit on:select on:pick>
+<Tokyo
+	{editOptions}
+	mapOptions={{ isPickEnabled: false }}
+	{controlsOptions}
+	on:edit
+	on:select
+	on:pick
+>
 	{#each geographicalZones as geographicalZone (geographicalZone.id)}
 		<TokyoGenericMapElement
 			id={geographicalZoneTokyoConverter.getId(geographicalZone)}
