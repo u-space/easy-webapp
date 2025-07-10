@@ -134,6 +134,14 @@ const BarItems = () => {
 				/>
 			)}
 
+			<BarItem
+				icon="document"
+				label={t('DOCUMENTS')}
+				isActive={active === 'documents'}
+				onClick={() => history.push('/documents')}
+				roles={[AuthRole.ADMIN]}
+			/>
+
 			{env.tenant.features.Trackers.enabled && (
 				<BarItem
 					icon="circle"

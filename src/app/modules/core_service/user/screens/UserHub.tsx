@@ -262,7 +262,7 @@ const UserHub = () => {
 	}
 
 	const onEntitySelected = (user: UserEntity) =>
-		history.replace(user ? `/users?id=${user.username}` : '/users');
+		history.replace(user ? `/users?id=${encodeURIComponent(user.username)}` : '/users');
 
 	// Effects
 	useEffect(() => {

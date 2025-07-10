@@ -36,6 +36,7 @@ import Vehicle from './modules/core_service/vehicle/screens/Vehicle';
 import HistoricalMapApp from './modules/map/screens/historical/HistoricalMapApp.svelte';
 import UpdateGeographicalZonesScreen from './modules/admin/screens/UpdateGeographicalZonesScreen';
 import UvrEditor from './modules/core_service/uvr/screens/UvrEditor';
+import DocumentHub from './modules/document/screens/DocumentHub';
 // import CoordinatorMapEditor from './modules/flight_request_service/coordinators/screens/CoordinatorMapEditor';
 const HistoricalMap = reactify(HistoricalMapApp);
 
@@ -328,6 +329,9 @@ const LoggedInScreens = () => {
 						<NewCoordinatorScreen />
 					</RoleGatedRoute>
 				)}
+				<RoleGatedRoute path={'/documents'} roles={[AuthRole.ADMIN]}>
+					<DocumentHub />
+				</RoleGatedRoute>
 				<RoleGatedRoute path={'/update-zones'} roles={[AuthRole.ADMIN]}>
 					<UpdateGeographicalZonesScreen />
 				</RoleGatedRoute>

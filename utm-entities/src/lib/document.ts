@@ -2,8 +2,10 @@ import env from '../../../src/vendor/environment/env';
 
 import Axios from 'axios';
 import { makeAutoObservable } from 'mobx';
+import { EntityHasDisplayName } from './types';
+import { buildParametersObject } from './_util';
 
-export class DocumentEntity {
+export class DocumentEntity implements EntityHasDisplayName {
 	downloadFileUrl?: string;
 	file?: File;
 	extra_fields: Record<string, any>;
@@ -20,6 +22,7 @@ export class DocumentEntity {
 	notifications?: object;
 	referenced_entity_id?: string;
 	referenced_entity_type?: string;
+	referenced_entity_url?: string;
 
 	constructor(document: any) {
 		this.extra_fields = {};
@@ -47,6 +50,7 @@ export class DocumentEntity {
 			} catch (e) {
 				console.log(e)
 			}
+			this.referenced_entity_url = `${env.public_url}/${this.referenced_entity_type}s/${this.id}`
 		}
 
 		makeAutoObservable(this);
@@ -59,6 +63,16 @@ export class DocumentEntity {
 	get hasSomethingToShow() {
 		return !!this.downloadFileUrl || !!this.file;
 	}
+
+	get displayName() {
+		return this.name;
+	}
+
+	get uuurl() {
+		return `${env.public_url}/${this.referenced_entity_type}s/${this.id}`
+	}
+
+
 }
 
 export enum DocumentEntityType {
@@ -73,6 +87,33 @@ export const getDocumentAPIClient = (api: string, token: string | null) => {
 		headers: { 'Content-Type': 'application/json' }
 	});
 	return {
+
+		async getDocuments(
+			take: number,
+			skip: number,
+			orderBy: string,
+			order: string,
+			filterBy: string,
+			filter?: string,
+			status?: string) {
+
+			const headers = {
+				'Content-Type': 'application/json',
+				auth: `${token}`
+			};
+			const response = await axiosInstance.get(
+				`/document/`,
+
+				{
+					params: {
+						...buildParametersObject(take, skip, orderBy, order, filterBy, filter),
+						status: status !== 'all' ? status : undefined
+					},
+					headers
+				}
+			);
+			return response.data;
+		},
 		async saveDocument(
 			entityType: DocumentEntityType,
 			entityId: string,

@@ -3,7 +3,8 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useAuthStore } from '../auth/store';
 import { getWebConsoleLogger } from '../../../utils';
 import { useCoreServiceAPI } from '../../utils';
-import { DocumentEntity } from '@utm-entities/document';
+import { DocumentEntity, DocumentEntityType } from '@utm-entities/document';
+import { useDocumentStore } from './store';
 
 export interface UseUpdateDocumentValidationParams {
 	docId: string;
@@ -38,10 +39,85 @@ export const useUpdateDocumentValidation = () => {
 	});
 };
 
+
+
+export const useQueryDocuments = () => {
+
+	const {
+		pageTake,
+		pageSkip,
+		sortingProperty,
+		sortingOrder,
+		filterProperty,
+		filterMatchingText
+	} = useDocumentStore();
+
+	const {
+		document: { getDocuments }
+	} = useCoreServiceAPI();
+
+	const query = useQuery(
+		[
+			'documents',
+			pageTake,
+			pageSkip,
+			sortingProperty,
+			sortingOrder,
+			filterProperty,
+			filterMatchingText
+		],
+		() =>
+			getDocuments(
+				pageTake,
+				pageSkip,
+				sortingProperty,
+				sortingOrder,
+				filterProperty,
+				filterMatchingText,
+			),
+		{ keepPreviousData: true }
+	);
+
+	const data = query.isSuccess ? query.data : null;
+	const documents = data ? data.documents : [];
+	const count = data ? data.count : 0;
+
+	return {
+		...query,
+		documents,
+		count
+	}
+	// return useQuery(['documents'], () => getDocuments());
+
+}
+
+export interface UseUpdateDocumentParams {
+	document: DocumentEntity;
+}
+export const useUpdateDocument = () => {
+	const queryClient = useQueryClient();
+
+	const {
+		document: { saveDocument }
+	} = useCoreServiceAPI();
+
+	return useMutation<
+		AxiosResponse<any>,
+		AxiosError,
+		UseUpdateDocumentParams
+	>((params) => saveDocument(DocumentEntityType.USER, '', params.document), {
+		onSuccess: () => {
+			window.location.href = `${window.location.href}`;
+		},
+		onError: (error) => {
+			getWebConsoleLogger().getBackendError(error);
+		}
+	});
+};
+
 export interface UseDeleteDocumentParams {
 	docId: string;
 }
-
 export const useDeleteDocument = () => {
 	const queryClient = useQueryClient();
 

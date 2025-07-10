@@ -176,6 +176,7 @@
 }
 
 .form {
+	$form-input-width: 300px;
 	position: relative;
 
 	display: flex;
@@ -222,7 +223,7 @@
 	}
 
 	input {
-		width: 200px !important;
+		width: $form-input-width !important;
 		margin-left: auto;
 		padding: 0 0.5rem;
 		// background-color: red;
@@ -238,7 +239,7 @@
 
 	& textarea {
 		resize: vertical;
-		width: 500px;
+		width: $form-input-width;
 
 		&:disabled {
 			color: black;
@@ -317,7 +318,7 @@
 
 
 	& select {
-		width: 100%;
+		width: $form-input-width !important;
 		min-width: 190.4px; // TODO: When compared to the width of a PInput, the select always ends up smaller, idk why
 
 		color: black;
@@ -481,7 +482,7 @@
 
 			display: flex;
 			justify-content: center;
-			align-items: flex-end;
+			align-items: center;
 
 			padding: var(--spacing-2);
 

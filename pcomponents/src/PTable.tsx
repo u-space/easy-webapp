@@ -5,16 +5,14 @@ import {
 	DataEditorProps,
 	GridColumn
 } from '@glideapps/glide-data-grid';
+import { AnimatePresence, motion } from 'framer-motion';
 import { FC, ReactNode, useCallback, useState } from 'react';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { ThemeProvider } from 'styled-components';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import { AnimatePresence, motion } from 'framer-motion';
-import PButton from './PButton';
 import styles from './Kanpur.module.scss';
 import { getCSSVariable } from './utils';
 
-// get CSS variable from the root element
 
 export interface PTableProps {
 	columns: GridColumn[];
@@ -48,7 +46,7 @@ const PTable: FC<PTableProps> = ({
 			const newCols = [...cols];
 			newCols[index] = {
 				...newCols[index],
-				width: newSize
+				width: col.width
 			};
 			setColumns(newCols);
 		},
@@ -93,7 +91,6 @@ const PTable: FC<PTableProps> = ({
 		fontFamily: 'Lexend Deca, sans-serif'
 	};
 
-	//const maximumWidth = columns.map((col) => col.width).reduce((a, b) => a + b, 0) + 0;
 
 	const childVariants = {
 		right: { translateX: '100%' },
@@ -101,17 +98,19 @@ const PTable: FC<PTableProps> = ({
 		left: { translateX: '-100%' }
 	};
 
+	const colSumWith = cols.slice(1).map((col) => col.width).reduce((a, b) => a + b, 0);
+
 	return (
 		<ThemeProvider theme={darkTheme}>
 			<AutoSizer>
 				{(props) => {
-					//const leftMargin = props.width ? (props.width - maximumWidth) / 2 : 0;
 					const actionsSize = cols[0].width;
 					const _cols = cols.map((item, index) => {
 						if (index > 0) {
 							return {
 								title: item.title,
-								width: (props.width - actionsSize) / (cols.length - 1)
+								// width: (props.width - actionsSize) / (cols.length - 1) //equal width
+								width: (props.width - actionsSize) * (item.width / colSumWith)
 							};
 						} else {
 							return item;

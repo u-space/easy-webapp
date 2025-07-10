@@ -560,5 +560,15 @@
 		"noUavs": "Sin aeronaves",
 		"noCreator": "Sin creador",
 		"starting_time": "Comienzo"
+	},
+	"document": {
+		"name": "Nombre",
+		"tag": "Etiqueta",
+		"referenced_entity_type": "Tipo asociado",
+		"referenced_entity_id": "Referencia",
+		"valid": "Valido",
+		"valid_until": "Válido hasta",
+		"observations": "Observaciones",
+		"extra_fields": "Otros campos"
 	}
 }
