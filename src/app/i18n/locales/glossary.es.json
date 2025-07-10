@@ -500,7 +500,7 @@
 			"PREFLIGHT": "Todas las coordinaciones han sido aprobadas, y el piloto está listo para volar. "
 		},
 		"noCoordination": "Sin coordinaciones",
-		"noCoordinationMsg": "La zona de vuelo no intersecta zonas prohibidas, ingrese directamente al menú de operaicones",
+		"noCoordinationMsg": "La zona de vuelo no intersecta zonas prohibidas, ingrese directamente al menú de operaciones",
 		"noOperator": "Sin operador",
 		"noUavs": "Sin aeronaves",
 		"noCreator": "Sin creador",
