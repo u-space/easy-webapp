@@ -130,8 +130,18 @@ export const getDocumentAPIClient = (api: string, token: string | null) => {
 				if (prop === 'whatever') continue;
 				if (prop === 'isBeingAdded') continue;
 				if (prop === 'notifications') continue;
+				if (prop === 'referenced_entity_id') continue;
+				if (prop === 'referenced_entity_type') continue;
+				if (prop === 'referenced_entity_url') continue;
+
+
 				formData.append(prop, (document as any)[prop]);
 			}
+			// referenced_entity_id
+			// referenced_entity_type
+			formData.append('referenced_entity_type', entityType);
+			formData.append('referenced_entity_id', entityId);
+
 			formData.append('extra_fields_str', JSON.stringify(document.extra_fields));
 			formData.append('notifications', JSON.stringify(document.notifications));
 			formData.delete('downloadFileUrl');
