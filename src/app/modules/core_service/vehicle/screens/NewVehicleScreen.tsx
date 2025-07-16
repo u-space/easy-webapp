@@ -18,6 +18,7 @@ import ViewAndEditVehicle from '../pages/ViewAndEditVehicle';
 import DashboardLayout from '../../../../commons/layouts/DashboardLayout';
 import { getCSSVariable } from '@pcomponents/utils';
 import env from '../../../../../vendor/environment/env';
+import { useQueryUser } from '../../user/hooks';
 
 export enum FormStep {
 	SELECT_FROM_PREDEFINED_VEHICLES = 0,
@@ -43,6 +44,15 @@ const NewVehicleScreen = () => {
 		useQueryAircraftTypes();
 
 	const [options, setOptions] = useState<AircraftType[]>([]);
+
+	const { data: userData } = useQueryUser(username, true);
+
+
+	useEffect(() => {
+		if (userData) {
+			ls.entity.owner = userData.data;
+		}
+	}, [username, userData?.data.username])
 
 	useEffect(() => {
 		if (!isLoadingAircraftTypes && isSuccessAircraftTypes) {

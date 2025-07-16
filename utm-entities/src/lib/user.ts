@@ -284,7 +284,7 @@ export function getUserAPIClient(api: string, token: string | null, schema: Extr
 				).concat(transformUsers(schema))
 			});
 		},
-		getUser: (username: string) => {
+		getUser: (username: string): Promise<AxiosResponse<UserEntity, any>> => {
 			return axiosInstance.get(`user/${username}`, {
 				headers: { auth: token },
 				transformResponse: (
