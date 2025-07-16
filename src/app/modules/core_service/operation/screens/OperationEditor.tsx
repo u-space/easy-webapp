@@ -1,4 +1,4 @@
-import { PButtonProps } from '@pcomponents/PButton';
+import PButton, { PButtonProps, PButtonType } from '@pcomponents/PButton';
 import { PModalType } from '@pcomponents/PModal';
 import { useTokyo } from '@tokyo/store';
 import { translateErrors } from '@utm-entities/_util';
@@ -283,6 +283,18 @@ const OperationEditor = () => {
 		saveOperationMutation.reset();
 	};
 
+	const deleteVolume = () => {
+		setOperation((prev) => {
+			const newOperation = new Operation();
+			for (const prop in prev) {
+				newOperation.set(prop as keyof Operation, prev[prop as keyof Operation]);
+			}
+			newOperation.operation_volumes = prev.operation_volumes.filter((_, index) => index !== selectedVolume);
+			return newOperation;
+		});
+		setSelectedVolume(null);
+	}
+
 	/* -- */
 
 	const props = _.filter(_.keys(operation), (key) => key !== 'gufi' && key !== 'state');
@@ -360,12 +372,14 @@ const OperationEditor = () => {
 									</select>
 								</div>
 							}
+
 						>
 							<ContextualInfo
 								entity={operation.operation_volumes[selectedVolume]}
 								entityName={'volume'}
 								hiddenProps={['ordinal', 'id', 'near_structure']}
 							/>
+							<PButton variant={PButtonType.SECONDARY} onClick={deleteVolume}>{t('Delete')}</PButton>
 						</CardGroup>
 					)}
 					<MapViewModeSwitch />
