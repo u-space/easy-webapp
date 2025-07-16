@@ -44,7 +44,7 @@ export interface PDocumentProps {
 	canValidate?: boolean;
 	isAdmin?: boolean;
 	isLoading?: boolean;
-	deleteDocument?: (id:string) => void;
+	deleteDocument?: (id: string) => void;
 }
 
 export interface ExtraInfoPanelProps {
@@ -671,7 +671,7 @@ const PDocument = (props: PDocumentProps) => {
 									{validateText}
 								</PButton>
 							)}
-							{isAdmin && deleteDocument && (
+							{deleteDocument && (
 								<PButton
 									// disabled={(!document.valid && new Date(document.valid_until) < new Date())}
 									variant={PButtonType.SECONDARY}
