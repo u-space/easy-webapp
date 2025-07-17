@@ -77,12 +77,7 @@ const ExtraField = observer((props: ExtraFieldProps) => {
 				return (
 					<PInput
 						{...{ id, label, explanation }}
-						defaultValue={
-							// schemaValue.population && extraFieldsFunctions[schemaValue.population]
-							// 	? extraFieldsFunctions[schemaValue.population]()
-							// 	:
-							value
-						}
+						defaultValue={value}
 						onChange={(value) => (ls.entity.extra_fields[property] = value)}
 						isRequired={required}
 						isDarkVariant={isDarkVariant}
@@ -101,15 +96,16 @@ const ExtraField = observer((props: ExtraFieldProps) => {
 			}
 		case SchemaItemType.Number:
 			return (
-				<PNumberInput
+				<PInput
 					{...{ id, label, explanation }}
 					defaultValue={value}
-					onChange={(value) => (ls.entity.extra_fields[property] = value)}
+					onChange={(value) => (ls.entity.extra_fields[property] = Number.isNaN(Number(value)) ? null : Number(value))}
 					isRequired={required}
 					isDarkVariant={isDarkVariant}
-					disabled={!isEditing}
-					min={0}
+					disabled={!isEditing || !canEdit(role, schemaValue.canEdit)}
 					inline
+					minLength={minLength}
+					maxLength={maxLength}
 				/>
 			);
 		case SchemaItemType.Date:

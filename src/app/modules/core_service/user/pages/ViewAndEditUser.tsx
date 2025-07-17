@@ -17,7 +17,7 @@ import { UseLocalStoreEntity } from '../../../../commons/utils';
 import { useAuthStore } from '../../../auth/store';
 import { useSchemaStore } from '../../../schemas/store';
 import PasswordChanger from '../components/PasswordChanger';
-import { UserExtraFields } from './UserExtraFields';
+import { UserDocuments } from './UserDocuments';
 
 interface BaseUserDetailsProps {
 	//eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -204,41 +204,32 @@ const ExtraUserDetailsValues = ({
 	}
 };
 
-const ExtraUserDetails = (props: ExtraUserDetailsProps) => {
+const UserExtraFields = (props: ExtraUserDetailsProps) => {
 	const { ls, isEditing } = props;
-
-	// TODO: Emprolijar esto que basicamente
-	//  hace lo mismo dos veces pero para tener todos los requeridos al principio
-	// agregar display:flex y column(?) al conteiner, agregar order a los childs, incluso se podría pasar un order en la definición de extra fields
-
 	const schema = useSchemaStore((state) => state.users);
-
 	const keys = useMemo(() => Array.from(Object.keys(schema)), [schema]);
 
 	return useObserver(() => {
 		if (ls.entity) {
 			return (
 				<>
-					{keys.map((key) => (
-						<ExtraUserDetailsValues
-							key={key}
-							property={key}
-							ls={ls}
-							schema={schema}
-							required={true}
-							isEditing={isEditing}
-						/>
-					))}
-					{keys.map((key) => (
-						<ExtraUserDetailsValues
-							key={key}
-							property={key}
-							ls={ls}
-							schema={schema}
-							required={false}
-							isEditing={isEditing}
-						/>
-					))}
+					<div
+						className={styles.extraVehicleDetails}
+						style={{ display: 'flex', flexDirection: 'column', margin: 0 }}
+					>
+						{keys.map((key) => (
+							<div key={key} style={{ order: schema[key].required ? 1 : 2 }}>
+								<ExtraUserDetailsValues
+									// key={key}
+									property={key}
+									ls={ls}
+									schema={schema}
+									required={schema[key].required}
+									isEditing={isEditing}
+								/>
+							</div>
+						))}
+					</div>
 				</>
 			);
 		} else {
@@ -309,7 +300,7 @@ const ViewAndEditUser = (props: UserPageProps) => {
 					{t('Legal information explanation')}
 				</aside>
 				<section className={styles.details}>
-					<ExtraUserDetails isEditing={isEditing} ls={ls} />
+					<UserExtraFields isEditing={isEditing} ls={ls} />
 				</section>
 				<div className={styles.separator} />
 				{isAbleToAddDocuments && (
@@ -319,7 +310,7 @@ const ViewAndEditUser = (props: UserPageProps) => {
 							{t('User Documentation explanation')}
 						</aside>
 						<section className={styles.details}>
-							<UserExtraFields isEditing={isEditing} ls={ls} />
+							<UserDocuments isEditing={isEditing} ls={ls} />
 						</section>
 						<div className={styles.separator} />
 					</>

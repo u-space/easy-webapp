@@ -20,7 +20,7 @@ const documentKey = (doc: DocumentEntity) => {
 	return `${doc.tag}-${doc.id}-${String(doc.valid)}`;
 }
 
-export const UserExtraFields = observer((props: ExtraUserFilesProps) => {
+export const UserDocuments = observer((props: ExtraUserFilesProps) => {
 	const { ls, isEditing } = props;
 	const { t } = useTranslation(['glossary', 'ui']);
 	// useQuery

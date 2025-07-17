@@ -222,6 +222,9 @@ const ViewAndEditVehicle: FC<ViewAndEditVehicleProps> = ({
 
 	useEffect(() => {
 		if (ls.entity.operators) setOperators(ls.entity.operators);
+		// if(isPilot){
+		// 	ls.entity.owner = 
+		// }
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -298,7 +301,7 @@ const ViewAndEditVehicle: FC<ViewAndEditVehicleProps> = ({
 								preselected={ls.entity.owner ? [ls.entity.owner] : []}
 								fill
 								isRequired
-								disabled={!isEditing || !isAdmin }
+								disabled={!isEditing || !isAdmin}
 								isDarkVariant
 							/>
 						)}

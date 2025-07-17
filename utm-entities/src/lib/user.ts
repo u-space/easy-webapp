@@ -392,7 +392,17 @@ export function getUserAPIClient(api: string, token: string | null, schema: Extr
 
 					if (type === 'String') {
 						extraFields[key] = user.extra_fields[key];
-					} else if (type === 'Date') {
+					} else if (type === 'Number') {
+						extraFields[key] = user.extra_fields[key];
+					}
+					else if (type === 'Bool') {
+						if (typeof user.extra_fields[key] === 'boolean') {
+							extraFields[key] = user.extra_fields[key];
+						} else {
+							extraFields[key] = user.extra_fields[key] === 'true';
+						}
+					}
+					else if (type === 'Date') {
 						extraFields[key] = user.extra_fields[key].toISOString();
 					}
 				}
