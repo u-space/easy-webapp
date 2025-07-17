@@ -61,7 +61,7 @@ export const UserDocument = (props: UserDocumentProps) => {
 		});
 	};
 
-	if (!schemaQuery.isLoading && schemaQuery.data) {
+	if (!deleteDocumentMutation.isLoading && !schemaQuery.isLoading && schemaQuery.data) {
 		return (
 			<div
 				style={{
