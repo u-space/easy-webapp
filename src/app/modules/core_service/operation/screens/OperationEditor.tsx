@@ -380,6 +380,7 @@ const OperationEditor = () => {
 								hiddenProps={['ordinal', 'id', 'near_structure']}
 							/>
 							<PButton variant={PButtonType.SECONDARY} onClick={deleteVolume}>{t('Delete')}</PButton>
+							<PButton variant={PButtonType.PRIMARY} onClick={() => { setSelectedVolume(null) }}>{t('Close')}</PButton>
 						</CardGroup>
 					)}
 					<MapViewModeSwitch />
