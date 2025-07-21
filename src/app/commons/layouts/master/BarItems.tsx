@@ -3,6 +3,9 @@ import BarItem from './BarItem';
 import { AuthRole } from '../../../modules/auth/store';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router-dom';
+import { useState } from 'react';
+import { setCSSVariable } from 'src/app/utils';
+import { getCSSVariable } from '@pcomponents/utils';
 
 const BarItems = () => {
 	const { t } = useTranslation();
@@ -11,9 +14,34 @@ const BarItems = () => {
 	const location = useLocation();
 	const active = location.pathname.split('/')[1];
 
+	const [showBar, setShowBar] = useState<boolean>(true);
+	const defaultSideWidth = getCSSVariable('side-width-default');
+
+
 	const extraTenantPages = env.tenant.extras?.pages;
 	return (
 		<>
+			<BarItem
+				icon="double-chevron-left"
+				label={showBar ? t('Hide menu') : t('Show menu')}
+				onClick={() => {
+					if (showBar) {
+						setCSSVariable('side-width', '0');
+					} else {
+						setCSSVariable('side-width', defaultSideWidth);
+					}
+					setShowBar(!showBar);
+					console.log('click')
+				}}
+				roles={[
+					AuthRole.ADMIN,
+					AuthRole.PILOT,
+					AuthRole.MONITOR,
+					AuthRole.COA,
+					AuthRole.AIR_TRAFIC
+				]}
+			/>
+
 			{env.tenant.features.RealtimeMap.enabled && (
 				<BarItem
 					icon="map"
