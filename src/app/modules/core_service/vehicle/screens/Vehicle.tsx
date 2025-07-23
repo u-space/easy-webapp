@@ -162,13 +162,13 @@ const LoadedVehicle = (props: { vehicle: VehicleEntity }) => {
 
 const Vehicle = () => {
 	const { uvin } = useParams() as { uvin: string };
-	const { vehicle, refetch, isSuccess } = useQueryVehicle(uvin);
+	const { vehicle, refetch, isSuccess, isLoading, isFetching } = useQueryVehicle(uvin);
 
 	useEffect(() => {
 		refetch().then();
 	}, [refetch]);
 
-	if (!isSuccess) return <CLoading />;
+	if (!isSuccess || isLoading || isFetching) return <CLoading />;
 	return <LoadedVehicle vehicle={vehicle} />;
 };
 

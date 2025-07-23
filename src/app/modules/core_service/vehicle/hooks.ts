@@ -22,7 +22,7 @@ export function useQueryVehicle(uvin: VehicleEntity['uvin']) {
 		vehicle: { getVehicle }
 	} = useCoreServiceAPI();
 
-	const query = useQuery(['vehicle'], () => getVehicle(uvin), { enabled: false });
+	const query = useQuery(['vehicle'], () => getVehicle(uvin), { enabled: uvin !== '' });
 
 	const { isSuccess: isSuccessVehicle, data: response } = query;
 

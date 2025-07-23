@@ -292,7 +292,7 @@ export function getUserAPIClient(api: string, token: string | null, schema: Extr
 				).concat(transformUser(schema))
 			});
 		},
-		userExists: (username: string) => {
+		userExists: (username: string): Promise<AxiosResponse<boolean, any>> => {
 			return axiosInstance.get(`/user/exists/${username}`, {
 				headers: { auth: token },
 				transformResponse: (
