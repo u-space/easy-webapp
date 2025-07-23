@@ -53,24 +53,25 @@ const PUserSelectForPilots = (props: PUserSelectForPilotsProps) => {
 		if (selected.includes(usernameToCheck ? usernameToCheck : '')) {
 			// alert('User already selected');
 		} else {
-			userExists(usernameToCheck ? usernameToCheck : '')
-				.then((response) => {
-					if (response.data) {
-						setSelected((current: string[]) => {
-							const selected = [...current, value];
-							onSelect(selected);
-							setUsernameToCheck(undefined);
-							setValue('');
-							return selected;
-						});
-						// alert('User exists');
-					} else {
-						alert('User does not exist');
-					}
-				})
-				.catch((err) => {
-					console.error(err);
-				});
+			if (usernameToCheck) {
+				userExists(usernameToCheck)
+					.then((response) => {
+						if (response.data) {
+							setSelected((current: string[]) => {
+								const selected = [...current, value];
+								onSelect(selected);
+								setUsernameToCheck(undefined);
+								setValue('');
+								return selected;
+							});
+						} else {
+							console.error('User does not exist');
+						}
+					})
+					.catch((err) => {
+						console.error(err);
+					});
+			}
 		}
 	}, [usernameToCheck]);
 
