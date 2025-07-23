@@ -1,27 +1,27 @@
-import POperationStateSelect from '@pcomponents/POperationStateSelect';
-import PInput from '@pcomponents/PInput';
 import PButton, { PButtonProps } from '@pcomponents/PButton';
-import { observer } from 'mobx-react';
-import { useTranslation } from 'react-i18next';
 import PDateInput from '@pcomponents/PDateInput';
+import PInput from '@pcomponents/PInput';
+import POperationStateSelect from '@pcomponents/POperationStateSelect';
 import PTextArea from '@pcomponents/PTextArea';
-import { FC, useEffect, useMemo, useState } from 'react';
-import { ExtraFieldSchema } from '@utm-entities/extraFields';
-import CardGroup from '../../../../commons/layouts/dashboard/menu/CardGroup';
-import { UserEntity } from '@utm-entities/user';
-import { useAuthIsAdmin, useAuthIsPilot, useAuthStore } from '../../../auth/store';
-import { Operation, OperationState } from '@utm-entities/v2/model/operation';
-import { NestedUser } from '@utm-entities/v2/model/user';
-import { VehicleAuthorizationStatus, VehicleEntity } from '@utm-entities/vehicle';
-import { reactify } from 'svelte-preprocess-react';
-import CVehicleSelectorSvelte from '@tokyo/gui/CVehicleSelector.svelte';
-import { UtmBaseVehicle } from '@utm-entities/v2/model/vehicle';
-import { useQuery } from 'react-query';
-import { useCoreServiceAPI } from '../../../../utils';
-import env from '../../../../../vendor/environment/env';
+import PTooltip from '@pcomponents/PTooltip';
 import PUserSelectForAdmins from '@pcomponents/PUserSelectForAdmins';
 import PVehicleSelect from '@pcomponents/PVehicleSelect';
-import PTooltip from '@pcomponents/PTooltip';
+import CVehicleSelectorSvelte from '@tokyo/gui/CVehicleSelector.svelte';
+import { ExtraFieldSchema } from '@utm-entities/extraFields';
+import { UserEntity } from '@utm-entities/user';
+import { Operation, OperationState } from '@utm-entities/v2/model/operation';
+import { NestedUser } from '@utm-entities/v2/model/user';
+import { UtmBaseVehicle } from '@utm-entities/v2/model/vehicle';
+import { VehicleAuthorizationStatus, VehicleEntity } from '@utm-entities/vehicle';
+import { observer } from 'mobx-react';
+import { FC, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useQuery } from 'react-query';
+import { reactify } from 'svelte-preprocess-react';
+import env from '../../../../../vendor/environment/env';
+import CardGroup from '../../../../commons/layouts/dashboard/menu/CardGroup';
+import { useCoreServiceAPI } from '../../../../utils';
+import { useAuthIsAdmin, useAuthIsPilot, useAuthStore } from '../../../auth/store';
 const CVehicleSelector = reactify(CVehicleSelectorSvelte);
 
 interface OperationInfoProps {
@@ -113,6 +113,7 @@ const InfoOperation: FC<InfoOperationProps> = ({
 		setCanCreateOperation(hasVehicle && userCanOperate);
 		// }, [operation.uas_registrations, ownerList]);
 	}, [reScanVehicles, operation.owner, operation.uas_registrations]);
+
 	const onSelectUser = (_value: UserEntity[]) => {
 		operation.contact = '';
 		operation.contact_phone = '';
@@ -141,7 +142,10 @@ const InfoOperation: FC<InfoOperationProps> = ({
 		[`short_vehicles`, operation.owner],
 		() => getVehiclesByOperator(operation.owner?.username as string, 99, 0),
 		{
-			retry: false,
+			retryDelay: 0,
+			refetchInterval: false,
+			refetchIntervalInBackground: false,
+			refetchOnWindowFocus: false,
 			enabled: !!operation.owner
 		}
 	);
@@ -188,7 +192,7 @@ const InfoOperation: FC<InfoOperationProps> = ({
 								'uas_registrations',
 								value.map((vehicle) => UtmBaseVehicle.fromVehicleEntity(vehicle))
 							);
-							console.log('operation after changing uas_registrations', operation);
+							// console.log('operation after changing uas_registrations', operation);
 							setReScanVehicles(!reScanVehicles);
 						}}
 						preselected={operation.uas_registrations}
