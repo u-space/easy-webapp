@@ -22,7 +22,14 @@ export function useQueryVehicle(uvin: VehicleEntity['uvin']) {
 		vehicle: { getVehicle }
 	} = useCoreServiceAPI();
 
-	const query = useQuery(['vehicle'], () => getVehicle(uvin), { enabled: uvin !== '' });
+	const query = useQuery(['vehicle'], () => getVehicle(uvin), {
+		enabled: uvin !== '',
+		retry: false,
+		retryDelay: 0,
+		refetchInterval: false,
+		refetchIntervalInBackground: false,
+		refetchOnWindowFocus: false,
+	});
 
 	const { isSuccess: isSuccessVehicle, data: response } = query;
 
@@ -72,8 +79,8 @@ export function useGetVehiclesByOperator(username: string) {
 		[`short_vehicles_op_${username}`],
 		() => getVehiclesByOperator(username, 200, 0),
 		{
-			retry: false,
 			enabled: !!username,
+			retry: false,
 			retryDelay: 0,
 			refetchInterval: false,
 			refetchIntervalInBackground: false,

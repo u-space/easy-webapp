@@ -171,9 +171,9 @@ const Vehicle = () => {
 	const { uvin } = useParams() as { uvin: string };
 	const { vehicle, refetch, isSuccess, isLoading, isFetching } = useQueryVehicle(uvin);
 
-	useEffect(() => {
-		refetch().then();
-	}, [refetch]);
+	// useEffect(() => {
+	// 	refetch().then();
+	// }, [refetch]);
 
 	if (!isSuccess || isLoading || isFetching) return <CLoading />;
 	return <LoadedVehicle vehicle={vehicle} />;

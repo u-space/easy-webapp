@@ -171,19 +171,37 @@ export const useDocumentAvailableTags = (entityType: string) => {
 	const {
 		document: { getDocumentAvailableTags }
 	} = useCoreServiceAPI();
-	return useQuery(['tags'], () => getDocumentAvailableTags(entityType));
+	return useQuery(['tags'], () => getDocumentAvailableTags(entityType), {
+		retry: false,
+		retryDelay: 0,
+		refetchInterval: false,
+		refetchIntervalInBackground: false,
+		refetchOnWindowFocus: false,
+	});
 };
 
 export const useDocumentSchemas = (entityType: string) => {
 	const {
 		document: { getDocumentSchemas }
 	} = useCoreServiceAPI();
-	return useQuery([`${entityType}-schemas`], () => getDocumentSchemas(entityType));
+	return useQuery([`${entityType}-schemas`], () => getDocumentSchemas(entityType), {
+		retry: false,
+		retryDelay: 0,
+		refetchInterval: false,
+		refetchIntervalInBackground: false,
+		refetchOnWindowFocus: false,
+	});
 };
 
 export const useDocumentTagSchema = (entityType: string, tag: string) => {
 	const {
 		document: { getDocumentTagSchema }
 	} = useCoreServiceAPI();
-	return useQuery(['tagSchema', tag], () => getDocumentTagSchema(entityType, tag));
+	return useQuery(['tagSchema', tag], () => getDocumentTagSchema(entityType, tag), {
+		retry: false,
+		retryDelay: 0,
+		refetchInterval: false,
+		refetchIntervalInBackground: false,
+		refetchOnWindowFocus: false,
+	});
 };
