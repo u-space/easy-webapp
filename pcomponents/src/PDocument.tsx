@@ -673,12 +673,14 @@ const PDocument = (props: PDocumentProps) => {
 							)}
 							{deleteDocument && (
 								<PButton
-									// disabled={(!document.valid && new Date(document.valid_until) < new Date())}
+									disabled={(document.valid)}
 									variant={PButtonType.SECONDARY}
 									size={PButtonSize.SMALL}
 									onClick={() => {
-										// alert('Deleting ' + document.id);
-										deleteDocument(document.id);
+										const result = confirm(t('Are you sure you want to delete this document? This action cannot be undone'))
+										if (result) {
+											deleteDocument(document.id);
+										}
 									}}
 								>
 									{t('Delete')}
