@@ -6,11 +6,15 @@
 	--side-width-default: 261px;
 	--side-width: var(--side-width-default);
 	--side-width-full: 50vw;
-	--bar-width-default: 2rem;
+	--bar-width-default: 3rem;
 	--bar-width: var(--bar-width-default);
-	--bar-width-extended: 12rem; // 4rem
+	--bar-width-extended: 20rem; // 4rem
 	--map-brightness-default: 0.75;
 	--map-brightness: var(--map-brightness-default);
+}
+
+.withBorder {
+	border-right: 2px solid var(--primary-500);
 }
 
 .master {
@@ -55,24 +59,26 @@
 
 		transition: width 0.2s;
 
-		&:before {
-			position: absolute;
-			top: 0;
-			left: var(--bar-width);
-			bottom: 0;
-			right: 0;
-			content: '';
 
-			background-color: rgba(0, 0, 0, 0);
 
-			pointer-events: none;
+		// &:before {
+		// 	position: absolute;
+		// 	top: 0;
+		// 	left: var(--bar-width);
+		// 	bottom: 0;
+		// 	right: 0;
+		// 	content: '';
 
-			transition: all 0.2s;
-		}
+		// 	background-color: rgba(0, 0, 0, 0);
 
-		&:hover:before {
-			background-color: rgba(0, 0, 0, 0.8);
-		}
+		// 	pointer-events: none;
+
+		// 	transition: all 0.2s;
+		// }
+
+		// &:hover:before {
+		// 	background-color: rgba(0, 0, 0, 0.8);
+		// }
 
 		&>.item {
 			// BarItem
@@ -82,6 +88,7 @@
 
 			width: var(--bar-width-extended);
 			padding: var(--padding-xs);
+			padding-right: 1.5rem;
 
 			text-align: right;
 

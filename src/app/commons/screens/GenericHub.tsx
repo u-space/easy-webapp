@@ -385,7 +385,8 @@ function GenericHub<T extends GenericHubEntityType>(props: GenericHubProps<T>) {
 
 							<footer
 								style={{
-									height: rowHeight
+									height: rowHeight,
+									zIndex: 30
 								}}
 							>
 								{!updateQuery.isLoading && (

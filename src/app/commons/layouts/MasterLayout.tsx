@@ -26,11 +26,13 @@ const MasterLayout: FC<MasterLayoutProps> = ({ children }) => {
 		<section className={styles.master}>
 			{children}
 			<aside
-				className={styles.bar}
+				className={`${styles.bar} ${isExtended ? styles.withBorder : ''}`}
 				onMouseEnter={() => increaseBarWidth()}
 				onMouseLeave={() => {
 					resetBarWidth();
 				}}
+				onTouchEnd={() => resetBarWidth()}
+
 			>
 				{env.tenant.features.BarLogo.enabled && (
 					<img
