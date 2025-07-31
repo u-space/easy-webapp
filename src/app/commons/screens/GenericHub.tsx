@@ -22,6 +22,8 @@ import { EntityHasDisplayName } from '@utm-entities/types';
 import BannerOverlay, { BannerOverlayType } from '../components/BannerOverlay';
 import FullParentOverlayBlock, { FullBlockType } from '../components/FullParentOverlayBlock';
 import { UseLocalStoreEntity, UseLocalStoreNullable } from '../utils';
+import styles from './GenericHub.module.scss';
+
 
 export const rowHeight = 50;
 
@@ -198,7 +200,8 @@ function GenericHub<T extends GenericHubEntityType>(props: GenericHubProps<T>) {
 
 	const ExtraMenuButtons = extraMenuButtons;
 
-	const overlays = [overlay] ?? ([] as ReactNode[]);
+	const overlays = overlay ? [overlay] : [] // ?? ([] as ReactNode[]);
+
 	if (isAskingToDelete) {
 		overlays.push(
 			<PModal
@@ -477,7 +480,7 @@ function GenericHub<T extends GenericHubEntityType>(props: GenericHubProps<T>) {
 					)}
 				</PTable>
 			</div>
-			<div style={{ position: 'absolute', bottom: 0, width: '100%' }}>
+			<div style={{ position: 'absolute', bottom: 0, width: '100%' }} className={styles.footer}>
 				<PTableFooter>
 					{store.totalPages > 0 && (
 						<div
@@ -509,14 +512,18 @@ function GenericHub<T extends GenericHubEntityType>(props: GenericHubProps<T>) {
 						</div>
 					)}
 					{canAddNew && (
-						<PButton
-							style={{ marginLeft: 'auto', textTransform: 'uppercase' }}
-							icon="plus"
-							size={PButtonSize.SMALL}
-							onClick={() => history.push(`/editor/${entityName}`)}
+						<div
+							className={styles.createButton}
 						>
-							{t(`Create new ${entityName}`)}
-						</PButton>
+
+							<PButton
+								icon="plus"
+								size={PButtonSize.SMALL}
+								onClick={() => history.push(`/editor/${entityName}`)}
+							>
+								{t(`Create new ${entityName}`)}
+							</PButton>
+						</div>
 					)}
 				</PTableFooter>
 			</div>
