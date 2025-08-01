@@ -23,6 +23,7 @@ export interface PFileInputProps {
 	isDarkVariant?: boolean;
 	inline?: boolean;
 	style?: CSSProperties;
+	description?: string;
 }
 
 const PFileInput = ({
@@ -40,6 +41,7 @@ const PFileInput = ({
 	isLoading = false,
 	isRequired = false,
 	style,
+	description,
 	...extraProps
 }: PFileInputProps) => {
 	const { t } = useTranslation();
@@ -79,6 +81,7 @@ const PFileInput = ({
 			}
 			style={style}
 		>
+			{description && <span className={styles.pDocumentDescription}>{description}</span>}
 			<div style={{ display: 'flex !important', flexDirection: 'row' }}>
 				{source && (
 					<PButton

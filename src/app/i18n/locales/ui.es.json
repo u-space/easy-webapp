@@ -601,5 +601,9 @@
 	"DYNAMIC_RESTRICTION": "Restricción Temporal",
 	"STATIC_ADVISORY": "NOTAM",
 	"If you modify your aircraft's data, it will be disabled until a DINACIA operator verifies the information. The process may take up to 72 business hours. Do you wish to continue?": "Si ud modifica los datos de su aeronave, la misma quedarà deshabilitada hasta que un operador de DINACIA verifique los datos. El proceso puede tardar hasta 72 horas hábiles. ¿Desea continuar?",
-	"Are you sure you want to delete this document? This action cannot be undone": "¿Está seguro que desea eliminar este documento? Esta acción no puede deshacerse"
+	"Are you sure you want to delete this document? This action cannot be undone": "¿Está seguro que desea eliminar este documento? Esta acción no puede deshacerse",
+	"The identity document must have a front and back photo in the same file.": "Adjunte un archivo con ambas caras de su documento de identidad.",
+	"The  operator's permit must have a front and back photo in the same file.": "Adjunte un archivo con ambas caras de su permiso de operador.",
+	"Show menu": "Mostrar menu",
+	"Hide menu": "Ocultar menu"
 }

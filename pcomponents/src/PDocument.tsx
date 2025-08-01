@@ -97,6 +97,10 @@ const isExpirable = (schema: any) => {
 	return schema && schema.__metadata && schema.__metadata.expirable === true;
 };
 
+const getDescription = (schema: any) => {
+	return schema && schema.__metadata ? schema.__metadata.description : 'desc';
+};
+
 const ExtraInfoPanel = (props: ExtraInfoPanelProps) => {
 	const { t } = useTranslation();
 	const { document, id, schema, isEditing = false } = props;
@@ -368,6 +372,8 @@ const EditingModal = (props: EditingModalProps) => {
 									isDarkVariant
 									isRequired={true}
 									API={'changeme'}
+									explanation={t(getDescription(schema))}
+									description={t(getDescription(schema))}
 								/>
 							</section>
 						</div>
