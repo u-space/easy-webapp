@@ -1,7 +1,7 @@
 <script lang="ts">
-	import {isDeckMounted} from './deck/action';
-	import type {Layer} from '@deck.gl/core/typed';
-	import {createEventDispatcher, onDestroy, onMount} from 'svelte';
+	import { isDeckMounted } from './deck/action';
+	import type { Layer } from '@deck.gl/core/typed';
+	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 	import {
 		tokyoInternalsDestroyHandler,
 		tokyoInternalsUpdateHandler,
@@ -38,7 +38,6 @@
 	}
 
 	onDestroy(() => {
-		console.log('destroying', id);
 		if ($tokyoInternalsDestroyHandler) {
 			$tokyoInternalsDestroyHandler(id);
 		}

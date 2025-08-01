@@ -83,7 +83,6 @@ export function useQueryOperations(all = false) {
 			).then((response) => {
 				if (all) {
 					// TODO: this is temporal, backend should not return these ones
-					console.log('response', response);
 					return {
 						...response,
 						ops: response.ops.flatMap((op) => {
@@ -111,7 +110,6 @@ export function useQueryOperations(all = false) {
 	} = query;
 
 	const operations = useMemo(() => {
-		//console.log('Operations has been re-set', new Date().getMinutes());
 		if (data?.ops) {
 			return data.ops;
 		} else {

@@ -86,7 +86,7 @@ export const VehicleDocument: FC<VehicleDocumentProps> = ({
 	const updateDocumentValidationMutation = useUpdateDocumentValidation();
 	const deleteDocumentMutation = useDeleteDocument();
 
-	const deleteDocument = (id:string) => {
+	const deleteDocument = (id: string) => {
 		deleteDocumentMutation.mutate({
 			docId: id
 		});
@@ -95,7 +95,6 @@ export const VehicleDocument: FC<VehicleDocumentProps> = ({
 	useEffect(() => {
 		if (schemaQuery.data && schemaQuery.data.__metadata && schemaQuery.data.__metadata.expirable === false) {
 			if (document.valid_until < new Date(MAX_DATE)) {
-				console.log(`Document: ${document.id}, valid_until: ${document.valid_until}`);
 				const d = new DocumentEntity({ ...document, valid_until: new Date(MAX_DATE) })
 				ls.documents.set(document.id, d);
 			}
@@ -121,7 +120,6 @@ export const VehicleDocument: FC<VehicleDocumentProps> = ({
 			updateDocumentValidationMutation.isSuccess ||
 			updateDocumentObservationMutation.isSuccess
 		) {
-			console.log('Update validation or observation success ');
 			queryClient
 				.invalidateQueries([
 					'vehicles',
@@ -133,7 +131,6 @@ export const VehicleDocument: FC<VehicleDocumentProps> = ({
 					filterMatchingText
 				])
 				.then((a: any) => {
-					console.log('Invalidate queries', JSON.stringify(a, null, 2));
 					setFireRender(!fireRender);
 				});
 			//document.valid = updateDocumentValidationMutation.data.data.valid;

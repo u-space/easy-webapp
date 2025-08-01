@@ -142,7 +142,6 @@ export const getCoordinationAPIClient = (api: string, token: string | null) => {
 			});
 		},
 		saveCoordination(coordination: CoordinationEntity) {
-			console.log('coordination', coordination);
 			return axiosInstance.post('coordination', coordination, {
 				headers: { auth: token }
 			});

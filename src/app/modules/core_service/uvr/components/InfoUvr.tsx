@@ -20,7 +20,6 @@ const Info: FC<InfoProps> = observer(({ prop, entity, setInfo }) => {
 	const value = entity[prop];
 	if (typeof value === 'string') {
 		if (prop === 'type') {
-			console.log('value', value);
 			return <PSelect
 				key={prop}
 				id={`editor-uvr-${prop}`}

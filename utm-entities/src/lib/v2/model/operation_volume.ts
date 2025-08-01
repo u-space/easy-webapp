@@ -114,7 +114,6 @@ export class OperationVolume implements UtmEntity<RequestOperationVolume> {
 	}
 
 	get asDMS() {
-		console.log('asDMS')
 		return this.operation_geography?.coordinates[0].map((coord: any) => {
 			const lat = coord[1];
 			const long = coord[0];

@@ -38,7 +38,6 @@ import env from 'src/vendor/environment/env';
 const EditorMapView = reactify(EditorMapViewSvelte);
 
 const transformOperationCheckError = (input: string): [string, string] => {
-	console.log('transformOperationCheckError: ', input);
 	const regex = /Need coordination for zone (.+)/;
 	const match = input.match(regex);
 	if (match) {
@@ -134,7 +133,6 @@ const OperationEditor = () => {
 		if (!!id && !queryOperation.isSuccess && !queryOperation.isError) {
 			queryOperation.refetch().then((response) => {
 				if (response.data) {
-					console.log('operation: ', JSON.stringify(response.data, null, 2));
 					setOperation(response.data);
 				}
 			});
@@ -189,7 +187,6 @@ const OperationEditor = () => {
 
 	const saveOperationMutation = useSaveOperation(
 		() => {
-			console.log('saveOperationMutation.mutate: ', operation);
 			setModalProps({
 				isVisible: true,
 				type: PModalType.SUCCESS,
@@ -204,7 +201,6 @@ const OperationEditor = () => {
 			});
 		},
 		(error: any) => {
-			console.log('Error occurred:', error);
 			const errorMessages = [];
 
 			if (typeof error !== 'string' && error.response?.data) {

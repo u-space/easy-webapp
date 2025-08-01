@@ -46,7 +46,6 @@ const NewEntity = <T, ExtraComponentProps>({
 	const save: PButtonProps['onClick'] = (evt) => {
 		evt.preventDefault();
 		if (mutation) {
-			console.log('ls.entity', ls.entity);
 			mutation.mutate({ entity: ls.entity, documents: ls.documents, isCreating: true });
 		}
 	};

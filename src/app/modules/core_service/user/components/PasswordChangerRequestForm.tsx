@@ -31,7 +31,6 @@ const PasswordChangerRequestForm: FC<PasswordChangerProps> = ({ onFinish = null 
 					<PInput
 						id={'email'}
 						onChange={(value) => {
-							console.log(value);
 							setEmail(value);
 						}}
 						type="email"

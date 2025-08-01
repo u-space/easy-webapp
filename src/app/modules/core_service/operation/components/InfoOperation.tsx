@@ -192,7 +192,6 @@ const InfoOperation: FC<InfoOperationProps> = ({
 								'uas_registrations',
 								value.map((vehicle) => UtmBaseVehicle.fromVehicleEntity(vehicle))
 							);
-							// console.log('operation after changing uas_registrations', operation);
 							setReScanVehicles(!reScanVehicles);
 						}}
 						preselected={operation.uas_registrations}

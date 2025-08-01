@@ -31,7 +31,6 @@ const BarItems = () => {
 						setCSSVariable('side-width', defaultSideWidth);
 					}
 					setShowBar(!showBar);
-					console.log('click')
 				}}
 				roles={[
 					AuthRole.ADMIN,

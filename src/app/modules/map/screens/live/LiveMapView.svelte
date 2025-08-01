@@ -94,7 +94,6 @@
 			...visible,
 			[type]: checked
 		};
-		console.log('visible', visible);
 	};
 
 	// Hover logic

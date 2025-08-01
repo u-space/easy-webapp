@@ -109,7 +109,6 @@ const UvrEditor = () => {
 		if (queryUvr.isSuccess && geography) {
 			tokyo.flyToCenterOfGeometry(geography);
 		}
-		console.log('uvr', uvr);
 	}, [queryUvr.data?.data.geography, queryUvr.isSuccess, tokyo]);
 
 	const props = _.filter(_.keys(uvr), (key) => key !== 'message_id' && key !== 'cause');

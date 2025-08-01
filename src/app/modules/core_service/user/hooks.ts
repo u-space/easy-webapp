@@ -52,7 +52,6 @@ export function useUpdateUserPassword() {
 	const {
 		user: { updateUserPassword }
 	} = useCoreServiceAPI();
-	console.log('updateUserPassword', updateUserPassword);
 	return useMutation<AxiosResponse<void>, AxiosError, UseUpdateUserPasswordMutationParams>(
 		(params) => updateUserPassword(params.email, params.password)
 	);

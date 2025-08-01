@@ -48,7 +48,6 @@ interface BaseCoordinatorDetailsProps {
 
 const getGeographicalZone = (ls: UseLocalStoreEntity<CoordinatorEntity>) => {
 	const geographicalZone = ls.entity.geographical_zone;
-	console.log('getGeographicalZone: ', JSON.stringify(geographicalZone, null, 2));
 	let toReturn = '';
 	if (geographicalZone === null) {
 		toReturn = '';
@@ -59,7 +58,6 @@ const getGeographicalZone = (ls: UseLocalStoreEntity<CoordinatorEntity>) => {
 	else if (typeof geographicalZone === 'object') {
 		toReturn = JSON.stringify(ls.entity.getFeatureCollectionFromGeographicalZones());
 	}
-	console.log('toReturn: ', toReturn);
 	return toReturn
 
 };

@@ -24,7 +24,6 @@ const BaseDocumentDetails: FC<BaseDocumentDetailsProps> = ({ ls, isEditing, isCr
 	const flags = { isRequired: true, isDarkVariant: true, fill: false, inline: true };
 	const document = ls.entity
 
-	console.log('ls.entity', JSON.stringify(ls.entity, null, 2));
 
 	return (
 		<>
@@ -141,7 +140,7 @@ const ExtraFieldsDocumentDetails: FC<BaseDocumentDetailsProps> = ({ ls, isEditin
 						defaultValue={extraFields[key]}
 						label={t(`glossary:${document.referenced_entity_type}.${key}`)}
 						disabled={true}
-						onChange={(value: string) => (console.log(value))}
+						onChange={(value: string) => (console.log(''))}
 						{...flags}
 					/>
 				)

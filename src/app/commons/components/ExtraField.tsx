@@ -27,7 +27,6 @@ interface ExtraFieldProps {
 }
 
 function canEdit(role: AuthRole, roleEditors: string[] | undefined) {
-	console.log(`canEdit ${role} ${roleEditors} = ${roleEditors?.includes(role)}`);
 	if (!roleEditors) return true;
 	return roleEditors.includes(role);
 }

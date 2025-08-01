@@ -151,7 +151,6 @@ const BaseFlightRequestDetails: FC<BaseFlightRequestDetailsProps> = observer(
 							}
 						}
 						if (prop === 'createdAt') {
-							console.log('createdAt:', entity[prop]);
 							const date = new Date(entity[prop]);
 							const dateStr = date.toLocaleString([], {
 								year: 'numeric',
@@ -212,7 +211,7 @@ const BaseFlightRequestDetails: FC<BaseFlightRequestDetailsProps> = observer(
 						defaultValue={coordination.comments}
 						label={`${t('role_manager')}: ${t(coordination.role_manager)} por ${t(coordination.reference) || t('Geographical Zone')}`}
 						disabled={true}
-						onChange={(value) => console.log('dummy dont change ')}
+						onChange={(value) => console.log(' ')}
 						isDarkVariant
 					// inline
 					/>
