@@ -380,7 +380,7 @@
 		left: calc($gap * 2);
 		top: calc($gap + 25px);
 		width: 200px;
-		z-index: 20;
+		z-index: 2;
 		height: 35px;
 	}
 

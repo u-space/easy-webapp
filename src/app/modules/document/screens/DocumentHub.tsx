@@ -56,12 +56,9 @@ const DocumentHub = () => {
 
 	// Backend
 	const query = useQueryDocuments();
-	// const { documents, count } = query;
 	const documents = query.documents
-	const count = (query.count) ? 0 : query.count
-	// console.log('%%documents', documents)
+	const count = query.count
 
-	// const updateDocument = useUpdateDocument();
 	const deleteDocument = useDeleteDocument();
 
 	// Handlers
@@ -151,7 +148,6 @@ const DocumentHub = () => {
 			entities={documents}
 			onEntitySelected={onEntitySelected}
 			idSelected={idSelected}
-			// updateQuery={updateDocument as UseMutationResult}
 			updateQuery={useUpdateDocument() as UseMutationResult}
 			deleteQuery={deleteDocument as UseMutationResult}
 			query={{ ...query, count }}
