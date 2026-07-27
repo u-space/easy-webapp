@@ -14,6 +14,9 @@ export class GeographicalZone implements Record<string, number | any> {
 	last_update: Date;
 	min_altitude: number;
 	max_altitude: number;
+	// Only the minimum coordination days is carried from the coordinator; the
+	// public endpoint returns it flat (no coordinator object exposed).
+	minimun_coordination_days?: number;
 
 	constructor(
 		id: string | undefined,
@@ -22,7 +25,8 @@ export class GeographicalZone implements Record<string, number | any> {
 		coordinator: CoordinatorEntity | null,
 		last_update: Date,
 		min_altitude: number,
-		max_altitude: number
+		max_altitude: number,
+		minimun_coordination_days?: number
 	) {
 		this.id = id;
 		this.name = name;
@@ -31,6 +35,7 @@ export class GeographicalZone implements Record<string, number | any> {
 		this.last_update = last_update;
 		this.min_altitude = min_altitude;
 		this.max_altitude = max_altitude;
+		this.minimun_coordination_days = minimun_coordination_days;
 		makeAutoObservable(this);
 	}
 
@@ -62,7 +67,8 @@ export class GeographicalZone implements Record<string, number | any> {
 			existing.coordinator ? CoordinatorEntity.createFromGeozone(existing.coordinator) : null,
 			existing.last_update,
 			existing.min_altitude,
-			existing.max_altitude
+			existing.max_altitude,
+			existing.minimun_coordination_days
 		);
 	}
 }
@@ -103,6 +109,14 @@ export const getGeographicalZoneAPIClient = (api: string, token: string | null) 
 		getGeographicalZone(id: string) {
 			return axiosInstance.get(`geographicalzones/${id}`, {
 				headers: { auth: token },
+				transformResponse: Axios.defaults.transformResponse as AxiosResponseTransformer[]
+			});
+		},
+		// Public detail, used by the map shown to visitors without a session.
+		// No auth header; the public client already carries the /public prefix in
+		// its baseURL, so this hits /public/geographicalzones/:id.
+		getPublicGeographicalZone(id: string) {
+			return axiosInstance.get(`geographicalzones/${id}`, {
 				transformResponse: Axios.defaults.transformResponse as AxiosResponseTransformer[]
 			});
 		},
@@ -151,6 +165,25 @@ export const getGeographicalZoneAPIClient = (api: string, token: string | null) 
 					Axios.defaults.transformResponse as AxiosResponseTransformer[]
 				).concat(transformGeographicalZone)
 			});
+		},
+		/**
+		 * Public listing, used by the map shown to visitors without a session.
+		 * Hits the unauthenticated endpoint and sends no auth header. The backend
+		 * never returns the coordinator for this route.
+		 */
+		getPublicGeographicalZones(take: number, skip: number, orderBy: string, order: string) {
+			const params = buildParametersObject(take, skip, orderBy, order, '', undefined);
+			// The public client already carries the /public prefix in its baseURL
+			// (flight_request_public_api = :3002/public), so the path is just 'geographicalzones'.
+			return axiosInstance.get<GetGeographicalZonesParsedResponseType>(
+				'geographicalzones',
+				{
+					params,
+					transformResponse: (
+						Axios.defaults.transformResponse as AxiosResponseTransformer[]
+					).concat(transformGeographicalZone)
+				}
+			);
 		},
 		async getFetchUpdateInformation() {
 			return (

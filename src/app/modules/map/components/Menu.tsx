@@ -14,7 +14,10 @@ import { useSelectedRfv } from '../../core_service/rfv/hooks';
 import { useSelectedUvr } from '../../core_service/uvr/hooks';
 import { useSelectedVehicle } from '../../core_service/vehicle/hooks';
 import { usePublicSelectedFlightRequest, useSelectedFlightRequest } from '../../flight_request_service/flight_request/hooks';
-import { useSelectedGeographicalZone } from '../../flight_request_service/geographical_zone/hooks';
+import {
+	useSelectedGeographicalZone,
+	usePublicSelectedGeographicalZone
+} from '../../flight_request_service/geographical_zone/hooks';
 import GenericEntityDetails from './GenericEntityDetails';
 import OperationDetails from './OperationDetails';
 import OperationListAndStateFilters from './OperationListAndStateFilters';
@@ -39,6 +42,11 @@ const Menu = ({
 	const queryOperations = useQueryOperations();
 	const { operation, selected: operationSelection } = useSelectedOperationAndVolume();
 	const { gz, selected: gzSelection, query: querySelectedGz } = useSelectedGeographicalZone();
+	const {
+		gz: publicGz,
+		selected: publicGzSelection,
+		query: querySelectedPublicGz
+	} = usePublicSelectedGeographicalZone();
 	const {
 		vehicle,
 		latestPosition,
@@ -180,6 +188,23 @@ const Menu = ({
 			/>
 		);
 
+	} else if (publicGzSelection.geographicalZone && publicGz) {
+		// Show details of the selected geographical zone on the public map.
+		// publicGz is the unauthenticated getById result: only safe fields +
+		// minimun_coordination_days (no coordinator object). geography is skipped
+		// by GenericEntityDetails, which renders only string/number/Date.
+		return (
+			<GenericEntityDetails
+				route={publicGzSelection.prev ? `${publicGzSelection.prev}?is-previous=true` : '/map'}
+				isLoading={querySelectedPublicGz.isLoading}
+				isSuccess={querySelectedPublicGz.isSuccess}
+				isError={querySelectedPublicGz.isError}
+				entity={publicGz}
+				baseLabelKey={'gz'}
+				label={t('Prohibited and restricted zone')}
+				canEdit={false}
+			/>
+		);
 	} else {
 		// Main screen
 		return (

@@ -12,8 +12,8 @@ import {
 import useQueryRfvs, { useSelectedRfv } from '../../../core_service/rfv/hooks';
 import useQueryUvrs, { useSelectedUvr } from '../../../core_service/uvr/hooks';
 import {
-	useQueryGeographicalZones,
-	useSelectedGeographicalZone
+	useQueryPublicGeographicalZones,
+	usePublicSelectedGeographicalZone
 } from '../../../flight_request_service/geographical_zone/hooks';
 import Contextual from '../../components/Contextual';
 import Menu from '../../components/Menu';
@@ -64,19 +64,19 @@ const LivePublicMap = () => {
 	const { t } = useTranslation();
 	const history = useHistory();
 	const queryOperations = useQueryOperations(true);
-	// const queryGeographicalZones = useQueryGeographicalZones(true);
+	const queryGeographicalZones = useQueryPublicGeographicalZones();
 	const queryRfvs = useQueryRfvs(true);
 	const queryUvrs = useQueryUvrs(true);
 	const isLoading =
 		queryOperations.isLoading ||
-		// queryGeographicalZones.isLoading ||
-		// queryGeographicalZones.isFetching ||
+		queryGeographicalZones.isLoading ||
+		queryGeographicalZones.isFetching ||
 		queryRfvs.isLoadingRfvs ||
 		queryUvrs.isLoadingUvrs;
 
 	const tokyo = useTokyo();
 	const { volume, operation, selected: operationSelection } = useSelectedOperationAndVolume();
-	// const { gz, selected: gzSelection } = useSelectedGeographicalZone();
+	const { gz } = usePublicSelectedGeographicalZone();
 	const { rfv, selected: rfvSelection } = useSelectedRfv();
 	const { uvr, selected: uvrSelection } = useSelectedUvr();
 	const { flightRequest, selected: frSelection } = usePublicSelectedFlightRequest();
@@ -96,13 +96,13 @@ const LivePublicMap = () => {
 			} as LiveMapOperationSelected;
 		}
 		else
-			// if (gz) {
-			// 	return {
-			// 		type: LiveMapSelectableType.GEOGRAPHICAL_ZONE,
-			// 		id: gz.id
-			// 	} as LiveMapGeographicalZoneSelected;
-			// }
-			// else 
+			if (gz) {
+				return {
+					type: LiveMapSelectableType.GEOGRAPHICAL_ZONE,
+					id: gz.id
+				} as LiveMapGeographicalZoneSelected;
+			}
+			else
 			if (flightRequest) {
 				return {
 					type: LiveMapSelectableType.FLIGHT_REQUEST,
@@ -124,7 +124,7 @@ const LivePublicMap = () => {
 				return null;
 			}
 	}, [
-		// gz,
+		gz,
 		operationSelection, operation,
 		rfv, uvr, flightRequest]);
 	const positions = usePositionStore((state) => state.positions);
@@ -153,11 +153,11 @@ const LivePublicMap = () => {
 		}
 	}, [volume]);
 
-	// useEffect(() => {
-	// 	if (gz) {
-	// 		tokyo.flyToCenterOfGeometry(gz.geography);
-	// 	}
-	// }, [gz]);
+	useEffect(() => {
+		if (gz) {
+			tokyo.flyToCenterOfGeometry(gz.geography);
+		}
+	}, [gz]);
 
 	useEffect(() => {
 		if (flightRequest && flightRequest.volumes && flightRequest.volumes[0].operation_geography) {
@@ -206,7 +206,7 @@ const LivePublicMap = () => {
 	};
 	const liveMapViewProps: LiveMapViewProps = {
 		operations: queryOperations.operations, // operations: operations,
-		geographicalZones: [], //isShowingGeographicalZones || gz ? queryGeographicalZones.items : [],
+		geographicalZones: isShowingGeographicalZones ? queryGeographicalZones.items : [],
 		rfvs: queryRfvs.rfvs,
 		uvrs: isShowingUvrs ? queryUvrs.uvrs : uvr ? [uvr] : [],
 		vehiclePositions: positions || new Map(),

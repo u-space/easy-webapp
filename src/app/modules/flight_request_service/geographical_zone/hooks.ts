@@ -1,6 +1,10 @@
 import { useEffect, useMemo } from 'react';
 import { useQuery } from 'react-query';
-import { useFlightRequestServiceAPI, useQueryString } from '../../../utils';
+import {
+	useFlightRequestServiceAPI,
+	usePublicFlightRequestServiceAPI,
+	useQueryString
+} from '../../../utils';
 import { WebMercatorViewport } from '@deck.gl/core/typed';
 import { GeographicalZone } from '@flight-request-entities/geographicalZone';
 import { useTokyo } from '@tokyo/store';
@@ -21,6 +25,40 @@ export function useSelectedGeographicalZone() {
 	const querySelectedGz = useQuery(
 		['geographicalZone', idGz],
 		() => getGeographicalZone(idGz || ''),
+		{
+			enabled: false
+		}
+	);
+
+	useEffect(() => {
+		if (idGz) {
+			querySelectedGz.refetch();
+		}
+	}, [idGz]);
+
+	const gz = querySelectedGz?.data?.data;
+
+	return {
+		gz,
+		selected: { geographicalZone: idGz, prev: prev ? prev.replace(/'/g, '') : undefined },
+		query: querySelectedGz
+	};
+}
+
+// Public counterpart of useSelectedGeographicalZone, used by the map shown to
+// visitors without a session. Hits the unauthenticated getById, which returns
+// only safe fields + minimun_coordination_days (no coordinator object).
+export function usePublicSelectedGeographicalZone() {
+	const queryString = useQueryString();
+	const {
+		geographicalZone: { getPublicGeographicalZone }
+	} = usePublicFlightRequestServiceAPI();
+
+	const idGz = queryString.get('geographical-zone');
+	const prev = queryString.get('prev');
+	const querySelectedGz = useQuery(
+		['publicGeographicalZone', idGz],
+		() => getPublicGeographicalZone(idGz || ''),
 		{
 			enabled: false
 		}
@@ -136,6 +174,48 @@ export function useQueryGeographicalZones(all = false) {
 					  }
 					: undefined
 			),
+		{ keepPreviousData: true }
+	);
+
+	const data = isSuccess ? responseGeographicalZones.data : null;
+	const items = isSuccess ? responseGeographicalZones.data.geographicalZones : [];
+	const count = data ? data.count : 0;
+
+	return {
+		items,
+		count,
+		data,
+		isPreviousData,
+		isLoading,
+		isSuccess,
+		isError,
+		isFetching,
+		error
+	};
+}
+
+/**
+ * Same shape as useQueryGeographicalZones, but backed by the unauthenticated
+ * endpoint so it can be used by the map shown to visitors without a session.
+ * There is no viewport filtering here: the public endpoint ignores the polygon,
+ * so we just fetch the whole set once.
+ */
+export function useQueryPublicGeographicalZones() {
+	const {
+		geographicalZone: { getPublicGeographicalZones }
+	} = usePublicFlightRequestServiceAPI();
+
+	const {
+		isLoading,
+		isSuccess,
+		isError,
+		data: responseGeographicalZones,
+		isPreviousData,
+		isFetching,
+		error
+	} = useQuery(
+		['publicGeographicalZones'],
+		() => getPublicGeographicalZones(9999, 0, 'name', 'ASC'),
 		{ keepPreviousData: true }
 	);
 
